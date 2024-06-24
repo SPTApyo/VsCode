@@ -17,6 +17,6 @@ int main()
 
     } while (reponse != 0);
 
-    printf ("Fin du programme car la valeur entree = 0 :) \n\n");
+    printf ("Fin du programme car la valeur entree = 0 :)\n\n");
 }
 
