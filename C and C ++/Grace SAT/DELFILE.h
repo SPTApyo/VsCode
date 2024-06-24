@@ -12,20 +12,20 @@ int counting=0;
     fputs("[WAIT]>Voulez-vous supprimer les fichiers test ?(y/n)\n\n", inputfile );
     logs();
     fprintf(inputfile,"%s:",heure);
-    fputs("Réponse utilisateur:", inputfile );
+    fputs("Rï¿½ponse utilisateur:", inputfile );
 
     if ((Limit=='Y')||(Limit=='y')&&(numero==limite))
     {
     WAIT();
     printf("R%cponse autonome...\n",130);
-    fputs(" «Réponse autonome»...\n\n", inputfile );
+    fputs(" ï¿½Rï¿½ponse autonomeï¿½...\n\n", inputfile );
     sleep(2);
     }
     else
     {
     while( getchar() != '\n');
     scanf("%c", &DEL);
-    fprintf(inputfile, "«%c»",DEL);
+    fprintf(inputfile, "ï¿½%cï¿½",DEL);
 
     }
 
@@ -68,7 +68,7 @@ int counting=0;
     printf("S%cquence termin%ce int%cgralit%c des fichiers supprimer avec succ%cs\n", 130, 130, 130, 130, 138);
     logs();
     fprintf(inputfile,"%s:",heure);
-    fputs("[OK]>Séquence terminée intégralité des fichiers supprimer avec succès \n", inputfile );
+    fputs("[OK]>Sï¿½quence terminï¿½e intï¿½gralitï¿½ des fichiers supprimer avec succï¿½s \n", inputfile );
     Limit='y';
     limite=numero;
     DEL=NULL;
@@ -86,7 +86,7 @@ int counting=0;
     scanf("%c",&DEL);
     logs();
     fprintf(inputfile,"%s:",heure);
-    fprintf(inputfile,"Réponse utilisateur: «%c»...", DEL );
+    fprintf(inputfile,"Rï¿½ponse utilisateur: ï¿½%cï¿½...", DEL );
     if ((DEL=='y')||(DEL=='Y'))
     {
         sleep(2);
@@ -95,7 +95,7 @@ int counting=0;
         fputs("     //STOP\\\\\n", inputfile );
                 logs();
         fprintf(inputfile,"\n\n%s:",heure);
-        fputs("     Résumé du test:\n\n", inputfile );
+        fputs("     Rï¿½sumï¿½ du test:\n\n", inputfile );
         sprintf(log,"[SETTING]>SET_Cooldown:%d SET_Limite:%d SET_Securiter:%d \n", cooldown, limite, securiter);
         fputs(log, inputfile );
         fprintf(inputfile,"[SETTING]>ACCESS:<<%s>>\n",chemin);
@@ -103,8 +103,8 @@ int counting=0;
 
            if (counting==numero)
    {
-   fputs("[SUMMARY]>Test complet aucune défaillance détectée.. \n", inputfile );
-   fprintf(inputfile,"[SUMMARY]>Fichier présent: %d/%d\n",counting, numero );
+   fputs("[SUMMARY]>Test complet aucune dï¿½faillance dï¿½tectï¿½e.. \n", inputfile );
+   fprintf(inputfile,"[SUMMARY]>Fichier prï¿½sent: %d/%d\n",counting, numero );
    }
    else
 {
@@ -114,7 +114,7 @@ int counting=0;
     logs();
     fprintf(inputfile,"%s:",heure);
     fprintf(inputfile, "[SUMMARY]>Test incomplet %d fichiers manquants.. \n", nbfile);
-    fprintf(inputfile,"[SUMMARY]>intégrité des données estimée a %d %%\n\n",pourc);
+    fprintf(inputfile,"[SUMMARY]>intï¿½gritï¿½ des donnï¿½es estimï¿½e a %d %%\n\n",pourc);
 
 }
         fclose(inputfile);
@@ -141,7 +141,7 @@ int counting=0;
     scanf("%c",&DEL);
     logs();
     fprintf(inputfile,"%s:",heure);
-    fprintf(inputfile,"Réponse utilisateur: «%c»...", DEL );
+    fprintf(inputfile,"Rï¿½ponse utilisateur: ï¿½%cï¿½...", DEL );
     if ((DEL=='y')||(DEL=='Y'))
     {
         sleep(2);
@@ -153,7 +153,7 @@ int counting=0;
 
         logs();
         fprintf(inputfile,"\n\n%s:",heure);
-        fputs("     Résumé du test:\n\n", inputfile );
+        fputs("     Rï¿½sumï¿½ du test:\n\n", inputfile );
         sprintf(log,"[SETTING]>SET_Cooldown:%d SET_Limite:%d SET_Securiter:%d \n", cooldown, limite, securiter);
         fputs(log, inputfile );
         fprintf(inputfile,"[SETTING]>ACCESS:<<%s>>\n",chemin);
@@ -161,8 +161,8 @@ int counting=0;
 
            if (counting==numero)
    {
-   fputs("[SUMMARY]>Test complet aucune défaillance détectée.. \n", inputfile );
-   fprintf(inputfile,"[SUMMARY]>Fichier présent: %d/%d\n",counting, numero );
+   fputs("[SUMMARY]>Test complet aucune dï¿½faillance dï¿½tectï¿½e.. \n", inputfile );
+   fprintf(inputfile,"[SUMMARY]>Fichier prï¿½sent: %d/%d\n",counting, numero );
    }
    else
 {
@@ -172,7 +172,7 @@ int counting=0;
     logs();
     fprintf(inputfile,"%s:",heure);
     fprintf(inputfile, "[SUMMARY]>Test incomplet %d fichiers manquants.. \n", nbfile);
-    fprintf(inputfile,"[SUMMARY]>intégrité des données estimée a %d %%\n\n",pourc);
+    fprintf(inputfile,"[SUMMARY]>intï¿½gritï¿½ des donnï¿½es estimï¿½e a %d %%\n\n",pourc);
 
 }
 
