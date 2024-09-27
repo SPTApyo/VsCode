@@ -328,7 +328,7 @@ async function checkForUpcomingDevoirs(interaction) {
     logMessage(`\x1b[33m Vérification des devoirs à venir en cours ...\x1b[0m`);
 
     // Filtrer les devoirs en fonction de leur date
-    const reminders = devoirs.filter(d => [7, 3, 2, 1, 0].includes(moment(d.date, 'DD-MM-YYYY').diff(now, 'days')));
+    const reminders = devoirs.filter(d => [7, 3, 2, 1, 0].includes(moment(d.date, 'DD-MM-YYYY').diff(now.startOf('day'), 'days')));
     if(channel){
         if (reminders.length > 0) {
     try {
