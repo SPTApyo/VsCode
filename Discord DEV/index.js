@@ -1,4 +1,4 @@
-// Importation des modules
+// Importation des modules \u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u005F\u0041\u0050\u0059\u004F
 const {
     Client,
     GatewayIntentBits,
@@ -30,7 +30,7 @@ const fs = require('fs');
 // Configuration des dossiers et fichiers et constantes
 const EMBED_COLOR = 0xd830ef;
 const PERM_role = "nabil";
-const EMBED_FOOTER_TEXT = 'IUTAssistant : _Apyo';
+const EMBED_FOOTER_TEXT = 'IUTAssistant : \u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u005F\u0041\u0050\u0059\u004F';
 const logDirectory = './log';
 const dataDirectory = './data';
 const logFileName = `${logDirectory}/log_${moment().format('YYYY-MM-DD_HH-mm-ss')}.txt`;
@@ -77,7 +77,7 @@ const client = new Client({
 client.once('ready', () => {
     logMessage('\x1b[32m Le bot est prêt !\x1b[0m');
     // Mise a jour au démarrage
-    logMessage(`\x1b[33m Mise à jour de démarrage en cours ...\x1b[0m`);
+    logMessage('\x1b[33m Mise à jour de démarrage en cours ...\x1b[0m');
     removeExpiredDevoirs();
     manageLogFiles();
     checkForUpcomingDevoirs();
@@ -103,6 +103,7 @@ const commands = [
     new SlashCommandBuilder().setName('list').setDescription('Affiche la liste des devoirs ajoutés'),
     new SlashCommandBuilder().setName('check').setDescription('Vérifie les devoirs à venir et envoie des rappels'),
     new SlashCommandBuilder().setName('sort').setDescription('Trie du fichier JSON'),
+    new SlashCommandBuilder().setName('regenerate').setDescription('Régénère les IDs de chaque devoir'),
     new SlashCommandBuilder().setName('purge').setDescription('Purge tous les devoirs enregistrés dans le fichier JSON'),
     new SlashCommandBuilder().setName('about').setDescription('Affiche les informations du bot')
 ].map(command => command.toJSON());
@@ -113,7 +114,7 @@ const rest = new REST({
 }).setToken(token);
 (async () => {
     try {
-        logMessage('\x1b[33m Déploiement des commandes en cours ...\x1b[0m');
+        logMessage('\x1b[33m Déploiement des commandes en cours ...\x1b[0m\x1b[0m');
         await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
             body: commands
         });
@@ -127,6 +128,7 @@ const rest = new REST({
 let devoirs = fs.existsSync('./data/devoirs.json') ? JSON.parse(fs.readFileSync('./data/devoirs.json', 'utf8')) : [];
 // Sauvegarde du fichier devoirs
 function saveDevoirs() {
+    regenerateIds();
     logMessage('\x1b[33m Sauvegarde des données en cours ...\x1b[0m');
     fs.writeFileSync('./data/devoirs.json', JSON.stringify(devoirs, null, 2));
     logMessage('\x1b[32m Sauvegarde des données effectuée avec succès !\x1b[0m');
@@ -149,19 +151,34 @@ function sortDevoirs(calledBy) {
     saveDevoirs();
 }
 
-
-// Créer un embed
-const createEmbed = (title, description) =>
-    new EmbedBuilder().setColor(EMBED_COLOR).setTitle(title).setDescription(description).setFooter({
-        text: EMBED_FOOTER_TEXT
-    }).setTimestamp();
-
 // Fonction pour vérifier les rôles de l'utilisateur
 function hasRole(interaction, roleName, name) {
     const member = interaction.member;
     logMessage(`\x1b[32m Vérifications des permissions d\'interaction pour ${name}\x1b[0m`);
     return member.roles.cache.some(role => role.name === roleName);
 }
+
+function generateUniqueId() {
+    let id = 1; // Commence à 1, ou un autre numéro initial
+    while (devoirs.some(devoir => devoir.id === id)) {
+        id++; // Incrémente jusqu'à ce qu'un ID unique soit trouvé
+    }
+    return id;
+}
+
+function regenerateIds() {
+    devoirs.sort((a, b) => new Date(a.date) - new Date(b.date)); 
+    for (let i = 0; i < devoirs.length; i++) {
+        devoirs[i].id = i + 1; // Réattribuer les ID en ordre croissant
+    }
+    
+}
+
+// Créer un embed
+const createEmbed = (title, description) =>
+    new EmbedBuilder().setColor(EMBED_COLOR).setTitle(title).setDescription(description).setFooter({
+        text: EMBED_FOOTER_TEXT
+    }).setTimestamp();
 
 // Gestion des interactions
 client.on('interactionCreate', async interaction => {
@@ -180,19 +197,19 @@ client.on('interactionCreate', async interaction => {
 
         // Vérifier si le devoir existe déjà
         if (devoirs.some(d => d.devoir === devoir && d.matiere === matiere && d.date === date)) {
-            logMessage(`\x1b[31m Erreur création de devoir : Devoir déjà existant\x1b[0m`);
+            logMessage('\x1b[31m Erreur création de devoir : Devoir déjà existant\x1b[0m');
             return await interaction.reply('Ce devoir existe déjà avec la même date et matière.');
         }
 
         // Vérifier si la date est valide
         if (!moment(date, 'DD-MM-YYYY', true).isValid()) {
-            logMessage(`\x1b[31m Erreur création de devoir : Date invalide\x1b[0m`);
+            logMessage('\x1b[31m Erreur création de devoir : Date invalide\x1b[0m');
             return await interaction.reply('Date invalide. Utilisez le format JJ-MM-AAAA.');
         }
 
         // Ajouter le devoir
         devoirs.push({
-            id: devoirs.length + 1,
+            id: generateUniqueId(),
             devoir,
             matiere,
             date,
@@ -208,7 +225,9 @@ client.on('interactionCreate', async interaction => {
         });
 
 
-    } else if (commandName === 'modify') {
+    } 
+    
+    else if (commandName === 'modify') {
         logMessage(`\x1b[34m Interaction : commande "MODIFY" par ${user.username}\x1b[0m`);
         const id = interaction.options.getInteger('id');
         const newDevoir = interaction.options.getString('devoir')?.trim().toUpperCase() || null;
@@ -227,7 +246,7 @@ client.on('interactionCreate', async interaction => {
         if (newDate && moment(newDate, 'DD-MM-YYYY', true).isValid()) {
             devoirToModify.date = newDate;
         } else if (newDate) {
-            logMessage(`\x1b[31m Erreur modification de devoir : Date invalide\x1b[0m`);
+            logMessage('\x1b[31m Erreur modification de devoir : Date invalide\x1b[0m');
             return await interaction.reply('Date invalide. Utilisez le format JJ-MM-AAAA.');
         }
 
@@ -236,7 +255,9 @@ client.on('interactionCreate', async interaction => {
         await interaction.reply({
             embeds: [embed]
         });
-    } else if (commandName === 'list') {
+    } 
+    
+    else if (commandName === 'list') {
         logMessage(`\x1b[34m Interaction : commande "LIST" par ${user.username}\x1b[0m`);
         sortDevoirs(commandName);
         const devoirList = devoirs.length ?
@@ -247,13 +268,17 @@ client.on('interactionCreate', async interaction => {
         await interaction.reply({
             embeds: [embedList]
         });
-    } else if (commandName === 'check') {
+    } 
+    
+    else if (commandName === 'check') {
         logMessage(`\x1b[34m Interaction : commande "CHECK" par ${user.username}\x1b[0m`);
         removeExpiredDevoirs();
         sortDevoirs(commandName);
         await interaction.reply('Vérification des devoirs à venir en cours ...');
         await checkForUpcomingDevoirs(interaction);
-    } else if (commandName === 'sort') {
+    } 
+    
+    else if (commandName === 'sort') {
         if (!hasRole(interaction, PERM_role, user.username)) { // Vérifie si l'utilisateur a le rôle Admin
             logMessage(`\x1b[31m Permission refusée pour ${user.username}\x1b[0m`);
             return await interaction.reply({
@@ -265,7 +290,25 @@ client.on('interactionCreate', async interaction => {
         sortDevoirs(commandName);
         await interaction.reply('Tri terminé avec succès !');
 
-    } else if (commandName === 'purge') {
+    } 
+
+    if (commandName === 'regenerate') {
+        if (!hasRole(interaction, PERM_role, user.username)) { // Vérifie si l'utilisateur a le rôle Admin
+            logMessage(`\x1b[31m Permission refusée pour ${user.username}\x1b[0m`);
+            return await interaction.reply({
+                content: 'Vous n\'avez pas la permission d\'utiliser cette commande.',
+                ephemeral: true
+            });
+        }
+        logMessage(`\x1b[34m Interaction : commande "REGENERATEIDS" par ${user.username}\x1b[0m`);
+        logMessage('\x1b[33m Régénération des IDs de devoirs en cours ...\x1b[0m');
+        regenerateIds();
+        await interaction.reply('Les identifiants de devoirs ont été régénérés avec succès !');
+        logMessage('\x1b[32m Les identifiants de devoirs ont été régénérés avec succès !\x1b[0m');
+        saveDevoirs();
+    }
+    
+    else if (commandName === 'purge') {
         if (!hasRole(interaction, PERM_role, user.username)) { // Vérifie si l'utilisateur a le rôle Admin
             logMessage(`\x1b[31m Permission refusée pour ${user.username}\x1b[0m`);
             return await interaction.reply({
@@ -298,14 +341,14 @@ client.on('interactionCreate', async interaction => {
                     content: 'Tous les devoirs ont été supprimés.',
                     components: []
                 });
-                logMessage(`\x1b[32m Purge effectuée avec succès !\x1b[0m`);
+                logMessage('\x1b[32m Purge effectuée avec succès !\x1b[0m');
                 saveDevoirs();
             } else {
                 await i.update({
                     content: 'Purge annulée.',
                     components: []
                 });
-                logMessage(`\x1b[32m Purge annulée\x1b[0m`);
+                logMessage('\x1b[32m Purge annulée\x1b[0m');
             }
         });
 
@@ -315,7 +358,9 @@ client.on('interactionCreate', async interaction => {
                 components: []
             });
         });
-    } else if (commandName === 'about') {
+    } 
+    
+    else if (commandName === 'about') {
         logMessage(`\x1b[34m Interaction : commande "ABOUT" par ${user.username}\x1b[0m`);
         await interaction.reply(`Name : ${name}\nAuthor : ${author}\nVersion : ${Appversion}\nLicense : ${license}`);
     }
@@ -325,7 +370,7 @@ client.on('interactionCreate', async interaction => {
 async function checkForUpcomingDevoirs(interaction) {
     const channel = await client.channels.fetch(rappelsalonId);
     const now = moment();  // Garder now intact
-    logMessage(`\x1b[33m Vérification des devoirs à venir en cours ...\x1b[0m`);
+    logMessage('\x1b[33m Vérification des devoirs à venir en cours ...\x1b[0m');
 
     // Filtrer les devoirs en fonction de leur date
     const reminders = devoirs.filter(d => {
@@ -379,7 +424,7 @@ async function sendReminder(devoir, message) {
     const channel = await client.channels.fetch(rappelsalonId);
     if (channel) {
         const embed = createEmbed('Rappel de Devoir', `${message}\n**Devoir :** ${devoir.devoir}\n**Matière :** ${devoir.matiere}\n**Date limite :** ${devoir.date}`);
-        logMessage(`\x1b[32m Rappel embed de devoir effectuer et envoyé avec succès !\x1b[0m`);
+        logMessage('\x1b[32m Rappel embed de devoir effectuer et envoyé avec succès !\x1b[0m');
         channel.send({
             embeds: [embed]
         });
@@ -388,10 +433,10 @@ async function sendReminder(devoir, message) {
 
 // Lancement autonome des mises a jours
 function scheduleDailyTasks() {
-    logMessage(`\x1b[33m Mise à jour automatique en cours...\x1b[0m`);
+    logMessage('\x1b[33m Mise à jour automatique en cours...\x1b[0m');
     const now = moment();
     const nextRun = moment().set({
-        hour: 9,
+        hour: 6,
         minute: 0,
         second: 0,
         millisecond: 0
@@ -421,7 +466,7 @@ function scheduleDailyTasks() {
             manageLogFiles();
         }, 86400000); // 24 heures en millisecondes
     }, delay);
-    logMessage(`\x1b[32m Mise à jour effectuée avec succès !\x1b[0m`);
+    logMessage('\x1b[32m Mise à jour effectuée avec succès !\x1b[0m');
 }
 
 

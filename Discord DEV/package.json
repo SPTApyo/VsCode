@@ -1,12 +1,12 @@
 {
   "name": "iutassitant",
-  "Appversion": "0.9.5 - **BÊTA**",
+  "Appversion": "0.9.9 - **BÊTA**",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "_APYO",
+  "author": "\u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u005F\u0041\u0050\u0059\u004F",
   "license": "ISC",
   "description": "",
   "dependencies": {
