@@ -36,8 +36,7 @@ const dataDirectory = './data';
 const logFileName = `${logDirectory}/log_${moment().format('YYYY-MM-DD_HH-mm-ss')}.txt`;
 
 // Recherche du token
-//const token = process.env.DISCORD_TOKEN;
-const token = 'MTI4NzQ3MjgzNDIyNjAzMjY5MQ.Gep38O.pHFx6q0_Nfqen4mFTSsVEyih57EEPJIUrVTooo';
+const token = process.env.DISCORD_TOKEN;
 if (!token) {
     logMessage('\x1b[31m Erreur : le token n\'est pas défini dans les variables d\'environnement.\x1b[0m');
     process.exit(1); // Arrête le bot si le token n'est pas défini
@@ -135,12 +134,13 @@ function saveDevoirs() {
 
 // Retirer les devoirs périmés
 function removeExpiredDevoirs() {
-    const now = moment();
+    const now = moment().startOf('day');  // On prend le début du jour actuel
     logMessage('\x1b[33m Suppression des devoirs périmés en cours ...\x1b[0m');
-    devoirs = devoirs.filter(d => moment(d.date, 'DD-MM-YYYY').isAfter(now));
+    devoirs = devoirs.filter(d => moment(d.date, 'DD-MM-YYYY').isSameOrAfter(now.subtract(1, 'day')));
     logMessage('\x1b[32m Suppression effectuée avec succès !\x1b[0m');
     saveDevoirs();
 }
+
 // Trie des devoirs par date dans le JSON
 function sortDevoirs(calledBy) {
     logMessage('\x1b[33m Trie des devoirs en cours ...\x1b[0m');
@@ -324,55 +324,63 @@ client.on('interactionCreate', async interaction => {
 // Vérification des devoirs à venir
 async function checkForUpcomingDevoirs(interaction) {
     const channel = await client.channels.fetch(rappelsalonId);
-    const now = moment();
+    const now = moment();  // Garder now intact
     logMessage(`\x1b[33m Vérification des devoirs à venir en cours ...\x1b[0m`);
 
     // Filtrer les devoirs en fonction de leur date
-    const reminders = devoirs.filter(d => [7, 3, 2, 1, 0].includes(moment(d.date, 'DD-MM-YYYY').diff(now.startOf('day'), 'days')));
-    if(channel){
+    const reminders = devoirs.filter(d => {
+        // Ajouter un jour à la date du devoir pour l'inclure jusqu'à la fin du jour
+        const dueDate = moment(d.date, 'DD-MM-YYYY').endOf('day');
+        return [7, 6, 5, 4, 3, 2, 1, 0].includes(dueDate.diff(now.clone().startOf('day'), 'days'));
+    });
+
+    if (channel) {
         if (reminders.length > 0) {
-    try {
-        // Récupérer les messages récents (jusqu'à 50)
-        const fetched = await channel.messages.fetch({ limit: 50 });
-        // Supprimer les messages en bloc
-        await channel.bulkDelete(fetched);
-        logMessage(`\x1b[32m ${fetched.size} messages ont été supprimés dans le salon (${channel.name}) avec succès !\x1b[0m`);
-    } catch (error) {
-        logMessage('\x1b[31m Erreur lors de la suppression des messages : \x1b[0m', error);
-    }
-}
+            try {
+                // Récupérer les messages récents (jusqu'à 50)
+                const fetched = await channel.messages.fetch({ limit: 50 });
+                // Supprimer les messages en bloc
+                await channel.bulkDelete(fetched);
+                logMessage(`\x1b[32m ${fetched.size} messages ont été supprimés dans le salon (${channel.name}) avec succès !\x1b[0m`);
+                channel.send("@everyone Nouveau rappel de devoir !");
+            } catch (error) {
+                logMessage('\x1b[31m Erreur lors de la suppression des messages : \x1b[0m', error);
+            }
+        }
     }
 
     // Envoyer des rappels pour chaque devoir
     for (const devoir of reminders) {
-        const daysRemaining = moment(devoir.date, 'DD-MM-YYYY').diff(now, 'days');
+        // Utiliser now.startOf('day') pour calculer les jours restants correctement
+        const daysRemaining = moment(devoir.date, 'DD-MM-YYYY').endOf('day').diff(now.startOf('day'), 'days');
+
         await sendReminder(devoir, `Rappel : Le devoir est pour ${daysRemaining === 0 ? 'aujourd\'hui' : 'bientôt (' + daysRemaining + ' jour' + (daysRemaining > 1 ? 's' : '') + ')'}.`);
     }
 
     // Si interaction est disponible, envoyer la réponse appropriée
     if (interaction) {
-        // Vérifiez si l'interaction a déjà été répondu
         if (!interaction.replied) {
-            await interaction.reply(reminders.length ? 'Rappels envoyés.' : 'Aucun devoir à rappeler.');
-            logMessage(reminders.length ? '\x1b[32m Rappels envoyés.\x1b[0m' : '\x1b[32m Aucun devoir à rappeler.\x1b[0m');
+            await interaction.reply(reminders.length ? 'Rappels de devoir envoyés avec succès !' : 'Aucun devoir à rappeler.');
+            logMessage(reminders.length ? '\x1b[32m Rappels de devoir envoyés avec succès !\x1b[0m' : '\x1b[32m Aucun devoir à rappeler.\x1b[0m');
         } else {
-            await interaction.followUp(reminders.length ? 'Rappels envoyés.' : 'Aucun devoir à rappeler.');
-            logMessage(reminders.length ? '\x1b[32m Rappels envoyés.\x1b[0m' : '\x1b[32m Aucun devoir à rappeler.\x1b[0m');
+            await interaction.followUp(reminders.length ? 'Rappels de devoir envoyés avec succès !' : 'Aucun devoir à rappeler.');
+            logMessage(reminders.length ? '\x1b[32m Rappels de devoir envoyés avec succès !\x1b[0m' : '\x1b[32m Aucun devoir à rappeler.\x1b[0m');
         }
     } else {
         // Si interaction n'est pas disponible, ne rien envoyer mais loguer le résultat
-        logMessage(reminders.length ? '\x1b[32m Rappels automatique envoyés avec succès !\x1b[0m' : '\x1b[32m Aucun rappel automatique à envoyés\x1b[0m');
+        logMessage(reminders.length ? '\x1b[32m Rappels automatiques envoyés avec succès !\x1b[0m' : '\x1b[32m Aucun rappel automatique à envoyer\x1b[0m');
     }
 }
+
+
 
 // Envoi des rappels de devoirs
 async function sendReminder(devoir, message) {
     const channel = await client.channels.fetch(rappelsalonId);
     if (channel) {
         const embed = createEmbed('Rappel de Devoir', `${message}\n**Devoir :** ${devoir.devoir}\n**Matière :** ${devoir.matiere}\n**Date limite :** ${devoir.date}`);
-        logMessage(`\x1b[32m Rappel de Devoir effectué avec succès !\x1b[0m`);
+        logMessage(`\x1b[32m Rappel embed de devoir effectuer et envoyé avec succès !\x1b[0m`);
         channel.send({
-            content: "@everyone",
             embeds: [embed]
         });
     }
