@@ -387,7 +387,6 @@ async function checkForUpcomingDevoirs(interaction) {
                 // Supprimer les messages en bloc
                 await channel.bulkDelete(fetched);
                 logMessage(`\x1b[32m ${fetched.size} messages ont été supprimés dans le salon (${channel.name}) avec succès !\x1b[0m`);
-                channel.send("@everyone Nouveau rappel de devoir !");
             } catch (error) {
                 logMessage('\x1b[31m Erreur lors de la suppression des messages : \x1b[0m', error);
             }
@@ -435,6 +434,7 @@ async function sendReminder(message) {
         const embed = createEmbed('Rappel de Devoirs', message);
         logMessage('\x1b[32m Rappels groupés de devoirs envoyés avec succès !\x1b[0m');
         await channel.send({
+            content: "@everyone Nouveau rappel de devoir !",
             embeds: [embed]
         });
     }
