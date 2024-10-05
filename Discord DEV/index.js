@@ -394,12 +394,21 @@ async function checkForUpcomingDevoirs(interaction) {
         }
     }
 
-    // Envoyer des rappels pour chaque devoir
+    // Envoyer des rappels groupés dans un seul embed
+    let reminderMessages = ""; // Variable pour stocker tous les rappels
+
     for (const devoir of reminders) {
-        // Utiliser now.startOf('day') pour calculer les jours restants correctement
+        // Calculer les jours restants
         const daysRemaining = moment(devoir.date, 'DD-MM-YYYY').endOf('day').diff(now.startOf('day'), 'days');
 
-        await sendReminder(devoir, `Rappel : Le devoir est pour ${daysRemaining === 0 ? 'aujourd\'hui' : 'bientôt (' + daysRemaining + ' jour' + (daysRemaining > 1 ? 's' : '') + ')'}.`);
+        // Ajouter chaque rappel dans la variable reminderMessages
+        reminderMessages += `**Devoir :** ${devoir.devoir}\n**Matière :** ${devoir.matiere}\n**Date limite :** ${devoir.date}\n` +
+        `**Temps restant : ${daysRemaining === 0 ? 'aujourd\'hui' : daysRemaining + ' jour' + (daysRemaining > 1 ? 's' : '')}.**\n\n`;
+    }
+
+    // Envoyer tous les rappels dans un seul message
+    if (reminderMessages) {
+        await sendReminder(reminderMessages); // Envoi groupé
     }
 
     // Si interaction est disponible, envoyer la réponse appropriée
@@ -418,14 +427,14 @@ async function checkForUpcomingDevoirs(interaction) {
 }
 
 
-
-// Envoi des rappels de devoirs
-async function sendReminder(devoir, message) {
+// Envoi des rappels de devoirs groupés
+async function sendReminder(message) {
     const channel = await client.channels.fetch(rappelsalonId);
     if (channel) {
-        const embed = createEmbed('Rappel de Devoir', `${message}\n**Devoir :** ${devoir.devoir}\n**Matière :** ${devoir.matiere}\n**Date limite :** ${devoir.date}`);
-        logMessage('\x1b[32m Rappel embed de devoir effectuer et envoyé avec succès !\x1b[0m');
-        channel.send({
+        // Créer un embed avec tous les devoirs
+        const embed = createEmbed('Rappel de Devoirs', message);
+        logMessage('\x1b[32m Rappels groupés de devoirs envoyés avec succès !\x1b[0m');
+        await channel.send({
             embeds: [embed]
         });
     }
