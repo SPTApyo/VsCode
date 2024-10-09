@@ -376,7 +376,7 @@ async function checkForUpcomingDevoirs(interaction) {
     const reminders = devoirs.filter(d => {
         // Ajouter un jour à la date du devoir pour l'inclure jusqu'à la fin du jour
         const dueDate = moment(d.date, 'DD-MM-YYYY').endOf('day');
-        return [7, 6, 5, 4, 3, 2, 1, 0].includes(dueDate.diff(now.clone().startOf('day'), 'days'));
+        return [7, 6, 5, 4, 3, 2, 1, 0, -1].includes(dueDate.diff(now.clone().startOf('day'), 'days'));
     });
 
     if (channel) {
@@ -397,12 +397,18 @@ async function checkForUpcomingDevoirs(interaction) {
     let reminderMessages = ""; // Variable pour stocker tous les rappels
 
     for (const devoir of reminders) {
-        // Calculer les jours restants
-        const daysRemaining = moment(devoir.date, 'DD-MM-YYYY').endOf('day').diff(now.startOf('day'), 'days');
-
+        // Calculer les jours restants à partir de la date actuelle
+        const daysRemaining = moment(devoir.date, 'DD-MM-YYYY').startOf('day').diff(now.clone().startOf('day'), 'days');
+    
         // Ajouter chaque rappel dans la variable reminderMessages
         reminderMessages += `**Devoir :** ${devoir.devoir}\n**Matière :** ${devoir.matiere}\n**Date limite :** ${devoir.date}\n` +
-        `**Temps restant : ${daysRemaining === 0 ? 'aujourd\'hui' : daysRemaining + ' jour' + (daysRemaining > 1 ? 's' : '')}.**\n\n`;
+        `**Temps restant : ${
+            daysRemaining === 0 
+                ? 'aujourd\'hui' 
+                    : daysRemaining > 0 
+                        ? daysRemaining + ' jour' + (daysRemaining > 1 ? 's' : '') 
+                        : Math.abs(daysRemaining) + ' jour' + (Math.abs(daysRemaining) > 1 ? 's' : '') + ' de retard'
+        }.**\n\n`;
     }
 
     // Envoyer tous les rappels dans un seul message
