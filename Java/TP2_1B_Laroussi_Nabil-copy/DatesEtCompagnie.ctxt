@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=DatesEtCompagnie
+comment0.text=\r\n\ Indiquer\ le\ ou\ les\ numeros\ de\ TP\ et\ d'exercice.\r\n\r\n\ @author\ (Laroussi\ Nabil\ 1B)\r\n
+comment1.params=annee
+comment1.target=boolean\ estBissextile(int)
+comment1.text=\r\n\ \ @param\ annee\ une\ ann\u00E9e\r\n\ \ @return\ vrai\ si\ l'ann\u00E9e\ est\ bissextile,\ faux\ sinon\r\n
+comment2.params=mois\ annee
+comment2.target=int\ nbJours(int,\ int)
+comment3.params=jour\ mois\ annee
+comment3.target=boolean\ estValide(int,\ int,\ int)
+comment4.params=
+comment4.target=void\ saisieCalculAffichageValidite()
+comment5.params=
+comment5.target=int\ saisieEntier()
+numComments=6

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=FizzBuzz
+comment1.params=nbMax
+comment1.target=java.lang.String\ genererSuiteFizzBuzz(int)
+comment1.text=\r\n\ Fonction\ qui\ calcule\ la\ suite\ des\ annonces\ du\ jeu\ FizzBuzz.\r\n\ <p>Il\ est\ \u00E0\ noter\ que\ cette\ fonction\ comporte\ la\ pr\u00E9condition\r\n\ suivante\ \:\ 1\ <\=\ nbMax.</p>\r\n\ <p>Si\ cette\ in\u00E9galit\u00E9\ n'est\ pas\ respect\u00E9e,\ la\ fonction\ est\r\n\ libre\ de\ faire\ ce\ que\ bon\ lui\ semble.</p>\r\n\ @param\ nbMax\ le\ nombre\ d'annonces\ au\ total.\r\n\ @return\ une\ cha\u00EEne\ de\ caract\u00E8res\ contenant\ les\ annonces,\ s\u00E9par\u00E9es\r\n\ \ \ \ \ \ \ \ \ par\ des\ espaces\r\n
+comment2.params=
+comment2.target=int\ saisieEntier()
+comment3.params=arguments
+comment3.target=void\ main(java.lang.String[])
+numComments=4

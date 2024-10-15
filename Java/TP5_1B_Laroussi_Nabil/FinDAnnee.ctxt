@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=FinDAnnee
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment1.text=\ Programme\ principal,\ le\ param\u00E8tre\ du\ main\ n'\u00E9tant\ pas\ utilis\u00E9\ ici\ nous\ ne\ commentons\ pas,\r\n\ \ \ \ il\ devra\ l'\u00EAtre\ en\ cas\ d'utilisation\ (cf.\ suite)\ \r\n
+comment2.params=
+comment2.target=int\ saisieEntier()
+comment3.params=annee
+comment3.target=boolean\ estBissextile(int)
+comment4.params=mois\ annee
+comment4.target=int\ nbJours(int,\ int)
+comment5.params=mois
+comment5.target=java.lang.String\ convmois(int)
+numComments=6

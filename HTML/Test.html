@@ -1,43 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-
-<title>Formulaire</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de VLAN Cisco</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { margin-bottom: 20px; }
+        textarea { width: 100%; height: 200px; }
+    </style>
 </head>
+<body>
+    <h1>Générateur de Script de Configuration VLAN pour Cisco</h1>
 
-<body bgcolor="ffedbb">
+    <form id="vlanForm">
+        <label for="hostname">Nom du switch :</label>
+        <input type="text" id="hostname" name="hostname" placeholder="Nom du switch" required><br><br>
 
-<a href="TP2.html" title="Explication du lien" target="_blank">Retour</a>
-<h1> Candidature sur un emploi informatique </h1>
-<br/>
-<em>Tous les champs sont obligatoires</em>
-<form id="form" action="" >
-<p>
-<label for="nom">Nom</label>
-<input id="nom" type="text" name="nom" value=" "/><br/><br/>
-<label for="prenom">Prénom</label>
-<input id="prenom" type="text" name="prenom" value=" "/><br/><br/>
-<label for="prenom">Débutant</label>
-<input type="radio" name="rang" value="Débutant" /> <br/>
-<label for="prenom">Expérimenté</label>
-<input type="radio" name="rang" value="Expérimenté" /><br/>
-<label for="prenom">Confirmé</label>
-<input type="radio" name="rang" value="Confirmé" /><br/><br/>
-<label for="prenom">Candidater pour : </label>
-<select name="Candiater pour">
-<option>Intégrateur web</option>
-</select>
-<br/><br/>
-<textarea name="impression" rows="10" cols="50">
-Vos motivations pour ce poste ?
-</textarea>
-<input type="submit" value="Envoyer"/>
-</p>
-</form>
+        <label for="vlanCount">Nombre de VLANs :</label>
+        <input type="number" id="vlanCount" name="vlanCount" min="1" max="10" required><br><br>
 
+        <div id="vlanDetails"></div>
 
+        <button type="button" onclick="generateConfig()">Générer le script</button>
+    </form>
 
+    <h2>Script de Configuration Généré :</h2>
+    <textarea id="configOutput" readonly></textarea>
 
+    <script>
+        const vlanForm = document.getElementById('vlanForm');
+        const vlanDetails = document.getElementById('vlanDetails');
+        const vlanCountInput = document.getElementById('vlanCount');
+
+        vlanCountInput.addEventListener('input', updateVlanFields);
+
+        function updateVlanFields() {
+            const vlanCount = vlanCountInput.value;
+            vlanDetails.innerHTML = '';
+
+            for (let i = 1; i <= vlanCount; i++) {
+                vlanDetails.innerHTML += `
+                    <h3>VLAN ${i}</h3>
+                    <label for="vlanId${i}">ID du VLAN :</label>
+                    <input type="number" id="vlanId${i}" name="vlanId${i}" min="1" max="4094" required><br><br>
+
+                    <label for="vlanName${i}">Nom du VLAN :</label>
+                    <input type="text" id="vlanName${i}" name="vlanName${i}" placeholder="Nom du VLAN" required><br><br>
+
+                    <label for="ethernetPorts${i}">Ports Ethernet (ex: 1-10) :</label>
+                    <input type="text" id="ethernetPorts${i}" name="ethernetPorts${i}" placeholder="Ex: 1-10" required><br><br>
+                `;
+            }
+        }
+
+        function generateConfig() {
+            const hostname = document.getElementById('hostname').value;
+            const vlanCount = vlanCountInput.value;
+            let configScript = `hostname ${hostname}\n!\n`;
+
+            for (let i = 1; i <= vlanCount; i++) {
+                const vlanId = document.getElementById(`vlanId${i}`).value;
+                const vlanName = document.getElementById(`vlanName${i}`).value;
+                const ethernetPorts = document.getElementById(`ethernetPorts${i}`).value;
+
+                configScript += `
+vlan ${vlanId}
+ name ${vlanName}
+!
+interface range GigabitEthernet1/0/${ethernetPorts}
+ switchport mode access
+ switchport access vlan ${vlanId}
+ no shutdown
+!
+`;
+            }
+
+            document.getElementById('configOutput').value = configScript.trim();
+        }
+    </script>
 </body>
-
 </html>
