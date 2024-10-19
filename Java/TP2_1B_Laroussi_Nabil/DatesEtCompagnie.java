@@ -56,7 +56,6 @@ public class DatesEtCompagnie
         }else{
             System.out.println(Jour+"/"+Mois+"/"+Annee+" est invalide");
         }
-        return;
     }
 
     public static int saisieEntier() {
