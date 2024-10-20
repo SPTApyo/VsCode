@@ -15,8 +15,11 @@ const { clientId, guildId, rappelsalonId } = require("./config.json");
 const { name, author, Appversion, license } = require("./package.json");
 const moment = require("moment");
 const fs = require("fs");
+const ical = require("ical");
 
 // Configuration des dossiers et fichiers et constantes
+const icsUrl =
+  "https://webetud.iut-blagnac.fr/calendar/export_execute.php?userid=2332&authtoken=af5c6bad93b3bb6aed30e43de85b4362cbd8f1d3&preset_what=all&preset_time=custom";
 const EMBED_COLOR = 0xd830ef;
 const PERM_role = "nabil";
 const EMBED_FOOTER_TEXT =
@@ -43,7 +46,7 @@ if (!token) {
 
 // Fonction pour logger les messages
 function logMessage(message) {
-  const timestamp = moment().format("YYYY-MM-DD HH:mm:ss");
+  const timestamp = moment().format("YYYY/MM/DD HH:mm:ss");
   message = ">" + message;
   console.log(timestamp, message);
 
@@ -80,14 +83,15 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 client.once("ready", () => {
-  logMessage("\x1b[32m Le bot est prêt !\x1b[0m");
+  logMessage("\x1b[32m Bot déployé avec succès !\x1b[0m");
+  
   // Mise a jour au démarrage
   logMessage("\x1b[33m Mise à jour de démarrage en cours ...\x1b[0m");
   removeExpiredDevoirs();
   manageLogFiles();
   checkForUpcomingDevoirs();
   scheduleDailyTasks();
-  logMessage("\x1b[32m Bot déployé avec succès !\x1b[0m");
+  logMessage("\x1b[32m Le bot est prêt !\x1b[0m");
 });
 
 // Définition des commandes
@@ -185,6 +189,20 @@ let devoirs = fs.existsSync("./data/devoirs.json")
   : [];
 // Sauvegarde du fichier devoirs
 function saveDevoirs() {
+  function removeDuplicates(arr) {
+    const seen = new Set();
+    return arr.filter(devoir => {
+      const uniqueKey = `${devoir.titre}-${devoir.matiere}-${devoir.date}`;
+      if (seen.has(uniqueKey)) {
+        return false; // Le devoir est un doublon
+      }
+      seen.add(uniqueKey);
+      return true; // Le devoir est unique, on le garde
+    });
+  }
+
+  // Supprimer les doublons avant la sauvegarde
+  devoirs = removeDuplicates(devoirs);
   regenerateIds();
   logMessage("\x1b[33m Sauvegarde des données en cours ...\x1b[0m");
   fs.writeFileSync("./data/devoirs.json", JSON.stringify(devoirs, null, 2));
@@ -372,8 +390,8 @@ client.on("interactionCreate", async (interaction) => {
     logMessage(
       `\x1b[34m Interaction : commande "CHECK" par ${user.username}\x1b[0m`
     );
-    removeExpiredDevoirs();
-    sortDevoirs(commandName);
+    await removeExpiredDevoirs();
+    await sortDevoirs(commandName);
     await interaction.reply("Vérification des devoirs à venir en cours ...");
     await checkForUpcomingDevoirs(interaction);
   } else if (commandName === "sort") {
@@ -388,7 +406,7 @@ client.on("interactionCreate", async (interaction) => {
     logMessage(
       `\x1b[34m Interaction : commande "SORT" par ${user.username}\x1b[0m`
     );
-    sortDevoirs(commandName);
+    await sortDevoirs(commandName);
     await interaction.reply("Tri terminé avec succès !");
   }
 
@@ -484,6 +502,7 @@ client.on("interactionCreate", async (interaction) => {
 
 // Vérification des devoirs à venir
 async function checkForUpcomingDevoirs(interaction) {
+  await fetchDevoirsFromICS(icsUrl);
   const channel = await client.channels.fetch(rappelsalonId);
   const now = moment(); // Garder now intact
   logMessage("\x1b[33m Vérification des devoirs à venir en cours ...\x1b[0m");
@@ -587,12 +606,51 @@ async function sendReminder(message) {
     // Créer un embed avec tous les devoirs
     const embed = createEmbed("Rappel de Devoirs", message);
     logMessage(
-      "\x1b[32m Rappels groupés de devoirs envoyés avec succès !\x1b[0m"
+      "\x1b[32m Rappels groupés de devoirs crée avec succès !\x1b[0m"
     );
     await channel.send({
       content: "@everyone Nouveau rappel de devoir !",
       embeds: [embed],
     });
+  }
+}
+async function fetchDevoirsFromICS(url) {
+  try {
+    
+    // Téléchargement du fichier ICS
+    const response = await fetch(url);
+    const icsData = await response.text();
+
+    // Parsing du fichier ICS
+    const parsedData = ical.parseICS(icsData);
+    logMessage("\x1b[33m Recherche de devoirs sur le calendrier en cours ...\x1b[0m");
+    // Parcours des événements du fichier ICS
+    for (let key in parsedData) {
+      const event = parsedData[key];
+
+      // Vérifier si l'événement est bien un VEVENT et possède les informations nécessaires
+      if (
+        event.type === "VEVENT" &&
+        event.summary &&
+        event.end &&
+        event.categories
+      ) {
+        // Nettoyage du titre pour supprimer les mentions "DEADLINE", "WEEk", les heures, etc.
+        let cleanedTitle = event.summary.replace(/(DEADLINE.*|WEE?k\s*\d+.*|\d{1,2}(st|nd|rd|th)?\s*\w+\s*\d{2}:\d{2}.*)/gi,"").trim();
+        const formattedDate = event.end.toLocaleDateString("fr-FR", {day: "2-digit",month: "2-digit",year: "numeric",}).replace(/\//g, "-");
+        devoirs.push({
+          id: generateUniqueId(),
+          devoir: cleanedTitle,
+          matiere: event.categories,
+          date: formattedDate,
+          addedBy: "Moodle",
+        });
+      }
+    }
+    sortDevoirs("fetchDevoirsFromICS");
+    logMessage("\x1b[32m Devoirs trouvés avec avec succès !\x1b[0m", devoirs.length);
+  } catch (error) {
+    logMessage("\x1b[31m  Erreur lors de la récupération du fichier ICS: \x1b[0m", error);
   }
 }
 
@@ -618,6 +676,7 @@ function scheduleDailyTasks() {
   // Exécutez les fonctions une fois
   setTimeout(async () => {
     // Appel des fonctions de mise à jour
+    await fetchDevoirsFromICS(icsUrl);
     removeExpiredDevoirs();
     checkForUpcomingDevoirs();
     manageLogFiles();
@@ -626,9 +685,10 @@ function scheduleDailyTasks() {
 
     // Répéter toutes les 24 heures
     setInterval(async () => {
-      removeExpiredDevoirs();
-      checkForUpcomingDevoirs();
-      manageLogFiles();
+    await fetchDevoirsFromICS(icsUrl);
+    removeExpiredDevoirs();
+    checkForUpcomingDevoirs();
+    manageLogFiles();
     }, 86400000); // 24 heures en millisecondes
   }, delay);
   logMessage("\x1b[32m Mise à jour effectuée avec succès !\x1b[0m");
@@ -651,4 +711,6 @@ async function loginWithRetry() {
 }
 
 // Lancer la tentative de connexion
+
+// Remplace par ton lien
 loginWithRetry();
