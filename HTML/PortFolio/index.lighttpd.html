@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub RaspberryPi</title>
+    <link rel="icon" href="/img/logo2.svg" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet" type="text/css" />
+    <link href="CSS/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="status-section">
+      <div class="status-dot-green"></div>
+      <div class="status-title">Status du Raspberry Pi : En ligne</div>
+    </div>
+    <div class="content hidden-content">
+      <a class="button" href="http://raspberrypi.local:8888/">
+        <div id="status-monitoring" class="status-dot"></div>
+        <img class="ImageButton" src="/img/logo2.svg" alt="Logo Monitoring">
+        <div class="button-info">
+          <div class="button-title">RPi-Monitor</div>
+          <div class="button-description">Surveiller les performances du système</div>
+        </div>
+      </a>
+      <a class="button" href="http://raspberrypi.local/admin/login.php">
+        <div id="status-dns" class="status-dot"></div>
+        <img class="ImageButton" src="/admin/img/logo.svg" alt="Logo DNS">
+        <div class="button-info">
+          <div class="button-title">Pi-hole</div>
+          <div class="button-description">Accéder au tableau de bord Pi-Hole</div>
+        </div>
+      </a>
+    </div>
+    <footer>
+      <p class="info-title">Informations</p>
+      <p class="info-ip">Adresse IP publique de l'utilisateur : <span id="public-ip-address">Recherche...</span>
+      </p>
+      <p class="info-ip">Adresse IP locale du Raspberry Pi : <span id="local-ip-address">192.168.1.66</span>
+      </p>
+    </footer>
+  </body>
+</html>

@@ -61,28 +61,36 @@ public class AlgosTableaux {
     public static void main(String[] args) {
         System.out.println("\n");
         /* Declaration des variables */
-        int nbVal; // nombre de valeurs a traiter
-        int tab[]; // tableau permettant de stocker les valeurs
-
+        int nbVal, nbOccurrences; // nombre de valeurs a traiter
+        int tab[], temptab[]; // tableaux permettant de stocker les valeurs
+        
         tab = new int[100];
+        temptab = new int[50];
         nbVal = saisirTableau(tab);
-        /*
-         * System.out.println("\nContenu du tableau :");
-         * afficherTableau(tab,nbVal);
-         * System.out.println("\nContenu du tableau inverser :");
-         * inverserTableau(tab,nbVal);
-         * afficherTableau(tab,nbVal);
-         */
+        
+        System.out.println("\nContenu du tableau :");
+        afficherTableau(tab,nbVal);
+        System.out.println("\nContenu du tableau inverser :");
+        inverserTableau(tab,nbVal);
+        afficherTableau(tab,nbVal);
         System.out.println("\nContenu du tableau sans doublons:");
-        eliminerDoublons(tab, nbVal);
-
-        // Ajouter les appels aux algorithmes :
-        // - à saisirTableau5
-        // - puis à afficherTableau
-        // - puis ...
-
+        nbOccurrences = eliminerDoublons(tab, nbVal, temptab);
+        afficherTableau(temptab,nbOccurrences);
+        temptab = new int[50]; //reinitialisation du tableau temporaire
+        System.out.println("\nIndices des cases avec la plus grande valeur :");
+        nbOccurrences = indicesMax(tab, nbVal, temptab);
+        afficherTableau(temptab, nbOccurrences);
     }
 
+    /*
+     * Inverse l'ordre du tableau
+     *
+     * @param pfTab IN : un tableau de valeurs entières
+     * 
+     * @param pfNbEl IN : le nombre de valeurs
+     * 
+     *
+     */
     public static void inverserTableau(int[] pfTab, int pfNbEl) {
         for (int cpt = 0; cpt < pfNbEl / 2; cpt++) {
             int temp = pfTab[cpt];
@@ -91,42 +99,60 @@ public class AlgosTableaux {
         }
     }
 
-    public static void eliminerDoublons(int[] pfTab, int pfNbEl) {
-        int temptab[];
-        temptab = new int[100];
-        temptab[1] = pfTab[1];
-        boolean numeroExistant;
-        int i = 1;
+        /*
+     * Elimine les doublons
+     *
+     * @param pfTab IN : un tableau de valeurs entières
+     * 
+     * @param pfNbEl IN : le nombre de valeurs
+     * 
+     * @param pfTabsansdoublons OUT : le tableau sans doublons
+     *
+     * @return le nombre de case dans le tableau sans doublons
+     */
+    public static int eliminerDoublons(int[] pfTab, int pfNbEl, int[] pfTabsansdoublons) {
+        int i = 0;
         for (int cpt = 0; cpt < pfNbEl; cpt++) {
-            numeroExistant = false;
-            for (int cptbis = 0; cptbis < pfNbEl; cptbis++) {
-                if (temptab[cptbis] == pfTab[cpt]) {
+            boolean numeroExistant = false;
+            for (int j = 0; j < i; j++) {
+                if (pfTabsansdoublons[j] == pfTab[cpt]) {
                     numeroExistant = true;
+                    break;
                 }
             }
-            if (numeroExistant == false) {
+            if (!numeroExistant) {
+                pfTabsansdoublons[i] = pfTab[cpt];
                 i++;
-                temptab[i] = pfTab[cpt];
-
             }
-
         }
-        System.out.println("\nContenu du tableau sans doublons:");
-        afficherTableau(temptab, i);
-
+        return i;
     }
 
     /*
-     * public static int indicesMax(int[] pfTab, int pfNbEl, int[] pfIndices){
+     * Stocke les indices des occurences du maximum
+     *
+     * @param pfTab IN : un tableau de valeurs entières
      * 
-     * int[] indices = new int[10] ;
-     * int[] tab = {1,15,-2,15,6};
-     * int nbOccurrences ;
-     * nbOccurrences = indicesMax(tab, tab.length, indices);
-     * afficherTableau(indices, nbOccurrences);
+     * @param pfNbEl IN : le nombre de valeurs
      * 
-     * }
+     * @param pfIndices OUT : le tableau des indices
+     *
+     * @return le nombre d'occurrences du max
      */
+    public static int indicesMax(int[] pfTab, int pfNbEl, int[] pfIndices) {
+        int max = 0, i = 0;
+        for (int cpt = 0; cpt < pfNbEl; cpt++) {
+            if (max < pfTab[cpt]) {
+                max = pfTab[cpt];
+            }
+        }
+        for (int cpt = 0; cpt < pfNbEl; cpt++) {
+            if (max <= pfTab[cpt]) {
+                pfIndices[i++] = cpt;
+            }
+        }
+        return i;
+    }
 }
 
 /****************************************

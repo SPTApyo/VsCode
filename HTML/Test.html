@@ -1,83 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de VLAN Cisco</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        form { margin-bottom: 20px; }
-        textarea { width: 100%; height: 200px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Effet Néon</title>
+  <style>
+    body {
+      background-color: #111; /* Fond sombre pour faire ressortir l'effet néon */
+      color: #00000000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .neon-text {
+      color: #00000000;
+      font-size: 80px;
+      font-weight: bold;
+      color: #000000c9; /* Couleur principale du texte (cyan) */
+      text-shadow: 
+        0 0 1px #00000044, 
+        0 0 10px #ffffff, 
+        0 0 15px #ffffff, 
+        0 0 20px #ffffff, 
+        0 0 25px #ffffff;/* Ombres multiples pour l'effet néon */
+    }
+  </style>
 </head>
 <body>
-    <h1>Générateur de Script de Configuration VLAN pour Cisco</h1>
-
-    <form id="vlanForm">
-        <label for="hostname">Nom du switch :</label>
-        <input type="text" id="hostname" name="hostname" placeholder="Nom du switch" required><br><br>
-
-        <label for="vlanCount">Nombre de VLANs :</label>
-        <input type="number" id="vlanCount" name="vlanCount" min="1" max="10" required><br><br>
-
-        <div id="vlanDetails"></div>
-
-        <button type="button" onclick="generateConfig()">Générer le script</button>
-    </form>
-
-    <h2>Script de Configuration Généré :</h2>
-    <textarea id="configOutput" readonly></textarea>
-
-    <script>
-        const vlanForm = document.getElementById('vlanForm');
-        const vlanDetails = document.getElementById('vlanDetails');
-        const vlanCountInput = document.getElementById('vlanCount');
-
-        vlanCountInput.addEventListener('input', updateVlanFields);
-
-        function updateVlanFields() {
-            const vlanCount = vlanCountInput.value;
-            vlanDetails.innerHTML = '';
-
-            for (let i = 1; i <= vlanCount; i++) {
-                vlanDetails.innerHTML += `
-                    <h3>VLAN ${i}</h3>
-                    <label for="vlanId${i}">ID du VLAN :</label>
-                    <input type="number" id="vlanId${i}" name="vlanId${i}" min="1" max="4094" required><br><br>
-
-                    <label for="vlanName${i}">Nom du VLAN :</label>
-                    <input type="text" id="vlanName${i}" name="vlanName${i}" placeholder="Nom du VLAN" required><br><br>
-
-                    <label for="ethernetPorts${i}">Ports Ethernet (ex: 1-10) :</label>
-                    <input type="text" id="ethernetPorts${i}" name="ethernetPorts${i}" placeholder="Ex: 1-10" required><br><br>
-                `;
-            }
-        }
-
-        function generateConfig() {
-            const hostname = document.getElementById('hostname').value;
-            const vlanCount = vlanCountInput.value;
-            let configScript = `hostname ${hostname}\n!\n`;
-
-            for (let i = 1; i <= vlanCount; i++) {
-                const vlanId = document.getElementById(`vlanId${i}`).value;
-                const vlanName = document.getElementById(`vlanName${i}`).value;
-                const ethernetPorts = document.getElementById(`ethernetPorts${i}`).value;
-
-                configScript += `
-vlan ${vlanId}
- name ${vlanName}
-!
-interface range GigabitEthernet1/0/${ethernetPorts}
- switchport mode access
- switchport access vlan ${vlanId}
- no shutdown
-!
-`;
-            }
-
-            document.getElementById('configOutput').value = configScript.trim();
-        }
-    </script>
+  <div class="neon-text">
+    Effet Néon
+  </div>
 </body>
 </html>

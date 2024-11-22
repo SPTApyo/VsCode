@@ -637,16 +637,21 @@ async function fetchDevoirsFromICS(url) {
       ) {
         // Nettoyage du titre pour supprimer les mentions "DEADLINE", "WEEk", les heures, etc.
         let cleanedTitle = event.summary.replace(/(DEADLINE.*|WEE?k\s*\d+.*|\d{1,2}(st|nd|rd|th)?\s*\w+\s*\d{2}:\d{2}.*)/gi,"").trim();
-        const formattedDate = event.end.toLocaleDateString("fr-FR", {day: "2-digit",month: "2-digit",year: "numeric",}).replace(/\//g, "-");
-        devoirs.push({
-          id: generateUniqueId(),
-          devoir: cleanedTitle,
-          matiere: event.categories,
-          date: formattedDate,
-          addedBy: "Moodle",
-        });
+        
+        // Vérifier si le titre ne contient pas "s'ouvre"
+        if (!cleanedTitle.toLowerCase().includes("s'ouvre")) {
+          const formattedDate = event.end.toLocaleDateString("fr-FR", {day: "2-digit",month: "2-digit",year: "numeric",}).replace(/\//g, "-");
+          devoirs.push({
+            id: generateUniqueId(),
+            devoir: cleanedTitle,
+            matiere: event.categories,
+            date: formattedDate,
+            addedBy: "Moodle",
+          });
+        }
       }
     }
+    
     sortDevoirs("fetchDevoirsFromICS");
     logMessage("\x1b[32m Devoirs trouvés avec avec succès !\x1b[0m", devoirs.length);
   } catch (error) {

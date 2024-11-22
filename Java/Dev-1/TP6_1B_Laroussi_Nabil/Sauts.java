@@ -57,7 +57,6 @@ public class Sauts {
      */
     public static void saisieTabD(int pfNbSaisies, double pfTab[]) {
         int i;
-        Scanner clavier = new Scanner(System.in);
         for (i = 0; i < pfNbSaisies; i++) {
             System.out.println("Valeur n°" + (i + 1) + " :");
             pfTab[i] = saisieDoubleMin(0);
