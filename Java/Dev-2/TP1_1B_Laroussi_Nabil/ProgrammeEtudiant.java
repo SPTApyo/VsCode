@@ -19,7 +19,7 @@ public class ProgrammeEtudiant {
       int nbEtudiants = 7;
   
       for(int i = 0; i < nbEtudiants; i++) {
-        System.out.print("Nom : "+tabInfo[i].nom + " prénom " +tabInfo[i].prenom+ " adresse ");
+        System.out.print("Nom : "+tabInfo[i].nom + " prénom " +tabInfo[i].prenom+ " Adresse : ");
         afficheAdresse(tabInfo[i].adr);
       }
       System.out.println("");
@@ -31,5 +31,9 @@ public class ProgrammeEtudiant {
         System.out.println("Nom : "+tabInfo[i].nom + " prénom " +tabInfo[i].prenom+ " adresse " + tabInfo[i].adr);
       }
   
+    }
+
+    public static void afficheAdresse(Adresse pfAdresse) {
+      System.out.println(pfAdresse.numrue + " " + pfAdresse.nomrue + ", " + pfAdresse.codepostal + " " + pfAdresse.ville);
     }
   }

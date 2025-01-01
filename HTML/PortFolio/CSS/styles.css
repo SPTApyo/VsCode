@@ -1,0 +1,158 @@
+/* Fond avec le dégradé */
+body, html {
+    font-family: "Work Sans", serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+                #080c11 0%,     
+                #1b2838 10%,      
+                #1b2838 90%,     
+                #080c11 100%);
+    background-size: 100% 100%; /* Assure que le gradient ne se répète pas */
+    background-attachment: fixed; /* Fixe le fond pendant le défilement */
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+    z-index: 0;
+}
+
+/* Navigation */
+header {
+    position: relative;
+    top: 10px;
+    padding: 20px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    margin: 0 20px;
+}
+
+.menu a {
+    font-family: "Lexend Deca", serif;
+    font-size: 150%;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease-in-out, text-decoration-thickness 0.2s ease-in-out;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    transform: translateY(-5px) scale(1.05);
+    color: #38b6ff;
+}
+
+main {
+    padding: 2em 1em;
+    color: white;
+}
+
+section {
+    margin: 2em 0;
+    padding: 2em;
+    background: #0b101650;
+    border-radius: 8px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h2 {
+    color: #1bdfd8;
+}
+
+footer {
+    text-align: center;
+    font-size: 150%;
+    color: white;
+    padding: 1em 0;
+    margin-top: auto; /* Pousse le footer vers le bas */
+}
+
+
+/* Positionnement fixe du bouton */
+.back-button {
+    position: fixed;
+    top: 10%; /* Ajuste la position verticale */
+    left: 5%; /* Ajuste la position horizontale */
+    background-color: transparent;
+    border: 2px solid #38b6ff;
+    color: #38b6ff;
+    width: 50px;  /* Largeur fixe pour que le bouton soit rond */
+    height: 50px; /* Hauteur égale à la largeur */
+    padding: 0;  /* Supprime le padding pour éviter la déformation */
+    border-radius: 50%; /* Forme ronde */
+    cursor: pointer;
+    z-index: 9999; /* Pour être au-dessus des autres éléments */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+/* Image de l'icône */
+.back-icon {
+    width: 30px;  /* Taille de l'image à l'intérieur du bouton */
+    height: 30px; /* Taille de l'image à l'intérieur du bouton */
+}
+
+/* L'onde de choc */
+.ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(56, 182, 255, 0.5); /* Couleur de l'onde */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Empêche d'interférer avec le bouton */
+    animation: none; /* Pas d'animation par défaut */
+}
+
+/* Animation d'onde de choc */
+@keyframes rippleEffect {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    50% {
+        width: 150px; /* Taille de l'onde de choc */
+        height: 150px; /* Taille de l'onde de choc */
+        opacity: 0.3;
+    }
+    100% {
+        width: 200px; /* Taille de l'onde de choc */
+        height: 200px; /* Taille de l'onde de choc */
+        opacity: 0;
+    }
+}
+
+/* Pour améliorer l'apparence du bouton */
+.back-button:hover {
+    background-color: #38b6ff;
+    color: white;
+}
+
+/* Animation du bouton */
+.back-button:active {
+    transform: scale(1); /* Le bouton ne bouge pas */
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "devoir",
+        "description": "Le devoir à faire",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "matiere",
+        "description": "La matière du devoir",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "date",
+        "description": "La date limite (format: JJ-MM-AAAA)",
+        "required": true
+      }
+    ],
+    "name": "add",
+    "description": "Ajoute un devoir",
+    "type": 1
+  },
+  {
+    "options": [
+      {
+        "type": 4,
+        "name": "id",
+        "description": "L'ID du devoir à modifier",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "devoir",
+        "description": "Le nouveau devoir (laisser vide pour ne pas modifier)",
+        "required": false
+      },
+      {
+        "type": 3,
+        "name": "matiere",
+        "description": "La nouvelle matière (laisser vide pour ne pas modifier)",
+        "required": false
+      },
+      {
+        "type": 3,
+        "name": "date",
+        "description": "La nouvelle date limite (format: JJ-MM-AAAA, laisser vide pour ne pas modifier)",
+        "required": false
+      }
+    ],
+    "name": "modify",
+    "description": "Modifie un devoir",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "list",
+    "description": "Affiche la liste des devoirs ajoutés",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "check",
+    "description": "Vérifie les devoirs à venir et envoie des rappels",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "sort",
+    "description": "Trie du fichier JSON",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "regenerate",
+    "description": "Régénère les IDs de chaque devoir",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "purge",
+    "description": "Purge tous les devoirs enregistrés dans le fichier JSON",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "about",
+    "description": "Affiche les informations du bot",
+    "type": 1
+  },
+  {
+    "options": [],
+    "name": "kill",
+    "description": "Arrête le bot",
+    "type": 1
+  }
+]
