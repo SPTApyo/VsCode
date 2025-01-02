@@ -1,0 +1,73 @@
+/* Positionnement fixe du bouton */
+.back-button {
+    display: none; /* Cacher le bouton initialement */
+    position: fixed;
+    bottom: 10%;
+    left: 5%;
+    background-color: transparent;
+    border: 2px solid #38b6ff;
+    color: #38b6ff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease; /* Transition pour l'opacité */
+    opacity: 0; /* Cacher le bouton en début */
+    transition: opacity 0.5s ease;
+}
+
+/* Image de l'icône */
+.back-icon {
+    width: 30px;  /* Taille de l'image à l'intérieur du bouton */
+    height: 30px; /* Taille de l'image à l'intérieur du bouton */
+}
+
+/* L'onde de choc */
+.ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(56, 182, 255, 0.9); /* Couleur de l'onde */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Empêche d'interférer avec le bouton */
+    animation: none; /* Pas d'animation par défaut */
+}
+
+/* Animation d'onde de choc */
+@keyframes rippleEffect {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    50% {
+        width: 100px; /* Taille de l'onde de choc */
+        height: 100px; /* Taille de l'onde de choc */
+        opacity: 0.3;
+    }
+    100% {
+        width: 150px; /* Taille de l'onde de choc */
+        height: 150px; /* Taille de l'onde de choc */
+        opacity: 0;
+    }
+}
+
+/* Pour améliorer l'apparence du bouton */
+.back-button:hover {
+    transform: scale(1.1);
+    background-color: #38b6ff;
+    color: white;
+}
+
+/* Animation du bouton */
+.back-button:active {
+    transform: scale(0.8); /* Le bouton ne bouge pas */
+    filter: brightness(0.5);
+}

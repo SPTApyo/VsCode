@@ -4,26 +4,45 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100%;
     background: linear-gradient(to bottom, 
-                #080c11 0%,     
+                #121b25 0%,   
+                #1b2838 5%,  
                 #1b2838 10%,      
                 #1b2838 90%,     
-                #080c11 100%);
-    background-size: 100% 100%; /* Assure que le gradient ne se répète pas */
-    background-attachment: fixed; /* Fixe le fond pendant le défilement */
+                #1b2838 95%,
+                #121b25 100%);
+    background-size: 100% 100%;
+    background-attachment: fixed;
     display: flex;
     flex-direction: column;
-    scroll-behavior: smooth;
-    z-index: 0;
 }
 
 /* Navigation */
 header {
-    position: relative;
+    position: relative; /* Initialement en position relative */
     top: 10px;
     padding: 20px;
+    transition: background-color 0.3s ease, top 0.3s ease; /* Ajout d'une transition pour smooth scroll */
+    background-color: transparent; /* Fond transparent au départ */
+    z-index: 1000; /* Pour s'assurer qu'il soit au-dessus du contenu */
 }
 
+/* Menu setup */
+header {
+    position: relative; /* Position initiale */
+    top: 10px;
+    padding: 20px;
+    transition: background-color 0.3s ease, top 0.3s ease; /* Transition pour le fond et la position */
+    background-color: transparent; /* Fond transparent au départ */
+    z-index: 1000; /* Pour s'assurer qu'il reste au-dessus du contenu */
+}
+
+/* Menu setup */
 .menu {
     display: flex;
     justify-content: center;
@@ -34,13 +53,14 @@ header {
 
 .menu li {
     margin: 0 20px;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transition pour l'opacité et transformation */
 }
 
 .menu a {
     font-family: "Lexend Deca", serif;
     font-size: 150%;
     text-decoration: none;
-    color: white;
+    color: rgb(255, 255, 255);
     font-weight: bold;
     position: relative;
     display: inline-block;
@@ -54,20 +74,60 @@ header {
     color: #38b6ff;
 }
 
+.menu a:active {
+    transform: scale(0.8);
+    filter: brightness(0.5);
+}
+
+.button-number {
+    font-family: "Russo One", serif;
+    font-size: 12px;
+    font-style: normal;
+    position: absolute;
+    top: -50%; /* Positionner un peu au-dessus du bouton */
+    right: 0%; /* Décaler légèrement à droite */
+    color: rgb(199, 199, 199); /* Couleur du chiffre */
+    padding: 2px 5px;
+    border-radius: 50%; /* Pour avoir un petit cercle */
+    font-weight: bold;
+}
+
+/* Lorsque la page est scrollée, changer le fond du header */
+header.scrolled {
+    position: fixed; /* Fixe le header en haut */
+    top: 0; /* S'assurer qu'il soit collé tout en haut */
+    background-color: rgba(26, 26, 26, 0.418); /* Fond noir semi-transparent */
+    width: 100%; /* Prendre toute la largeur */
+    left: 0; /* S'assurer qu'il couvre toute la largeur de l'écran */
+    backdrop-filter: blur(50px); /* Applique un flou sur l'arrière-plan */
+    z-index: 9999; /* Assure que le header reste au-dessus des autres éléments */
+}
+
+
+
+
 main {
     padding: 2em 1em;
     color: white;
+    padding-top: 120%;
 }
 
 section {
+    position: relative; /* Permet à l'overlay de se positionner correctement à l'intérieur */
     margin: 2em 0;
     padding: 2em;
-    background: #0b101650;
+    background: #16202d; /* Couleur de fond de la section */
     border-radius: 8px;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden; /* Empêche l'image de fond de déborder */
+}
+
+section:hover {
+    transform: scale(1.02);
 }
 
 h1, h2 {
@@ -86,73 +146,86 @@ footer {
     margin-top: auto; /* Pousse le footer vers le bas */
 }
 
-
-/* Positionnement fixe du bouton */
-.back-button {
-    position: fixed;
-    top: 10%; /* Ajuste la position verticale */
-    left: 5%; /* Ajuste la position horizontale */
-    background-color: transparent;
-    border: 2px solid #38b6ff;
-    color: #38b6ff;
-    width: 50px;  /* Largeur fixe pour que le bouton soit rond */
-    height: 50px; /* Hauteur égale à la largeur */
-    padding: 0;  /* Supprime le padding pour éviter la déformation */
-    border-radius: 50%; /* Forme ronde */
-    cursor: pointer;
-    z-index: 9999; /* Pour être au-dessus des autres éléments */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-/* Image de l'icône */
-.back-icon {
-    width: 30px;  /* Taille de l'image à l'intérieur du bouton */
-    height: 30px; /* Taille de l'image à l'intérieur du bouton */
-}
-
-/* L'onde de choc */
-.ripple {
+.section-background-overlay-1 {
+    content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background-color: rgba(56, 182, 255, 0.5); /* Couleur de l'onde */
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none; /* Empêche d'interférer avec le bouton */
-    animation: none; /* Pas d'animation par défaut */
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/YQgT.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0)); /* Masque standard */
 }
 
-/* Animation d'onde de choc */
-@keyframes rippleEffect {
-    0% {
-        width: 0;
-        height: 0;
-        opacity: 1;
-    }
-    50% {
-        width: 150px; /* Taille de l'onde de choc */
-        height: 150px; /* Taille de l'onde de choc */
-        opacity: 0.3;
-    }
-    100% {
-        width: 200px; /* Taille de l'onde de choc */
-        height: 200px; /* Taille de l'onde de choc */
-        opacity: 0;
-    }
+.section-background-overlay-2 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/5m5h.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
 }
 
-/* Pour améliorer l'apparence du bouton */
-.back-button:hover {
-    background-color: #38b6ff;
-    color: white;
+.section-background-overlay-3 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/QHC.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
 }
 
-/* Animation du bouton */
-.back-button:active {
-    transform: scale(1); /* Le bouton ne bouge pas */
+.section-background-overlay-4 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/2swA.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
+    
+}
+
+
+.elementor-background-overlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/xK.gif'); /* Image de fond */
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px); /* Applique un flou à l'image */
+    z-index: -1; /* L'image se trouve derrière le texte */
+    background-color: #1b2838; /* La couleur de fond que tu veux derrière l'image */
+    
+    /* Applique le masque pour le dégradé d'opacité */
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0)); /* Masque standard */
 }
