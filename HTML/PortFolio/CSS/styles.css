@@ -1,6 +1,6 @@
 /* Fond avec le dégradé */
 body, html {
-    font-family: "Work Sans", serif;
+    font-display: "Work Sans", serif;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -82,7 +82,7 @@ header:not(.scrolled) {
 }
 
 .menu a {
-    font-family: "Lexend Deca", serif;
+    font-display: "Lexend Deca", serif;
     font-size: 190%;
     text-decoration: none;
     color: rgb(255, 255, 255);
@@ -105,7 +105,7 @@ header:not(.scrolled) {
 }
 
 .button-number {
-    font-family: "Russo One", serif;
+    font-display: "Russo One", serif;
     font-size: 12px;
     font-style: normal;
     position: absolute;
@@ -163,7 +163,7 @@ section:hover {
     
 }
 .name{
-    font-family: 'Poppins', sans-serif;
+    font-display: 'Poppins', sans-serif;
     text-align: center;
     line-height: 1.1;
     font-size: 1500%;
