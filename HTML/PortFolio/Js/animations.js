@@ -26,7 +26,7 @@ document.getElementById('backButton').addEventListener('click', function(e) {
     void ripple.offsetWidth;
     
     // Lance l'animation d'onde
-    ripple.style.animation = 'rippleEffect 0.3s ease-out';
+    ripple.style.animation = 'rippleEffect 0.5s ease-out';
 });
 
 window.addEventListener('scroll', () => {
@@ -41,7 +41,7 @@ window.addEventListener('scroll', () => {
         setTimeout(() => {
             backButton.style.opacity = '1';
             // Lancer l'animation de l'onde de choc
-            ripple.style.animation = 'rippleEffect 0.3s linear';
+            ripple.style.animation = 'rippleEffect 0.5s linear';
         }, 50);
     } else {
         backButton.style.opacity = '0';
@@ -81,4 +81,25 @@ function handleScroll() {
 // Écouter l'événement de défilement
 scrollableContent.addEventListener('scroll', handleScroll);
 
+// Récupère tous les boutons avec la classe "accordion"
+var accordions = document.getElementsByClassName("accordion");
+
+// Ajoute un événement de clic à chaque bouton
+for (var i = 0; i < accordions.length; i++) {
+    accordions[i].addEventListener("click", function() {
+        // Basculer la classe "active" sur le bouton cliqué
+        this.classList.toggle("active");
+
+        // Récupérer le panneau qui suit immédiatement le bouton cliqué
+        var panel = this.nextElementSibling;
+
+        // Si le panneau est actuellement affiché, le masquer
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            // Sinon, afficher le panneau
+            panel.style.display = "block";
+        }
+    });
+}
 

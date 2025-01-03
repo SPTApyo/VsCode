@@ -8,7 +8,8 @@ body, html {
 }
 
 body {
-    min-height: 100%;
+    position: relative;
+    min-height: 100vh;
     background: linear-gradient(to bottom, 
                 #121b25 0%,   
                 #1b2838 5%,  
@@ -20,6 +21,7 @@ body {
     background-attachment: fixed;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* Navigation */
@@ -27,20 +29,43 @@ header {
     position: relative; /* Initialement en position relative */
     top: 10px;
     padding: 20px;
-    transition: background-color 0.3s ease, top 0.3s ease; /* Ajout d'une transition pour smooth scroll */
+    transition: top 0.5s ease, background-color 0.3s ease;
     background-color: transparent; /* Fond transparent au départ */
     z-index: 1000; /* Pour s'assurer qu'il soit au-dessus du contenu */
 }
 
-/* Menu setup */
-header {
-    position: relative; /* Position initiale */
-    top: 10px;
+header.scrolled {
+    position: fixed;
+    animation: slideDown 0.5s forwards;
+    width: 100%;
     padding: 20px;
-    transition: background-color 0.3s ease, top 0.3s ease; /* Transition pour le fond et la position */
-    background-color: transparent; /* Fond transparent au départ */
-    z-index: 1000; /* Pour s'assurer qu'il reste au-dessus du contenu */
+    background-color: rgba(26, 26, 26, 0.418); /* Fond noir semi-transparent */
+    backdrop-filter: blur(10px); 
 }
+
+@keyframes slideDown {
+    0% {
+        top: -100px; /* Hors de l'écran */
+    }
+    100% {
+        top: 0; /* Affiché en haut de la page */
+    }
+}
+
+header:not(.scrolled) {
+    animation: slideUp 0.5s forwards; /* Animation pour la disparition */
+}
+
+/* Animation de glissement vers le haut */
+@keyframes slideUp {
+    0% {
+        top: -100px; /* Position du header lorsqu'il est visible */
+    }
+    100% {
+        top: 0px; /* Le header disparaît vers le haut */
+    }
+}
+
 
 /* Menu setup */
 .menu {
@@ -58,7 +83,7 @@ header {
 
 .menu a {
     font-family: "Lexend Deca", serif;
-    font-size: 150%;
+    font-size: 190%;
     text-decoration: none;
     color: rgb(255, 255, 255);
     font-weight: bold;
@@ -84,7 +109,7 @@ header {
     font-size: 12px;
     font-style: normal;
     position: absolute;
-    top: -50%; /* Positionner un peu au-dessus du bouton */
+    top: -35%; /* Positionner un peu au-dessus du bouton */
     right: 0%; /* Décaler légèrement à droite */
     color: rgb(199, 199, 199); /* Couleur du chiffre */
     padding: 2px 5px;
@@ -92,33 +117,23 @@ header {
     font-weight: bold;
 }
 
-/* Lorsque la page est scrollée, changer le fond du header */
-header.scrolled {
-    position: fixed; /* Fixe le header en haut */
-    top: 0; /* S'assurer qu'il soit collé tout en haut */
-    background-color: rgba(26, 26, 26, 0.418); /* Fond noir semi-transparent */
-    width: 100%; /* Prendre toute la largeur */
-    left: 0; /* S'assurer qu'il couvre toute la largeur de l'écran */
-    backdrop-filter: blur(50px); /* Applique un flou sur l'arrière-plan */
-    z-index: 9999; /* Assure que le header reste au-dessus des autres éléments */
-}
-
-
-
-
 main {
     padding: 2em 1em;
     color: white;
-    padding-top: 120%;
+    padding-top: 50%;
+    display: flex;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: flex-start; 
 }
 
 section {
     position: relative; /* Permet à l'overlay de se positionner correctement à l'intérieur */
-    margin: 2em 0;
+    padding-top: 50px; /* Ajoute un espace au-dessus de chaque section */
+    margin-top: 0;
     padding: 2em;
+    margin-top: 10%;
     background: #16202d; /* Couleur de fond de la section */
     border-radius: 8px;
-    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -130,102 +145,188 @@ section:hover {
     transform: scale(1.02);
 }
 
+.accueil {
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 2em;
+   /* Couleur de fond de la section */
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden; /* Empêche l'image de fond de déborder */
+    width: 80%; /* Définir une largeur, ajuster selon tes besoins */
+    height: 70%;
+    backdrop-filter: blur(10px); 
+    
+}
+.name{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    line-height: 1.1;
+    font-size: 1500%;
+    margin: 5%;
+}
+
+.description{
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    top: -100px;
+    font-size: 250%;
+    
+}
 h1, h2 {
     text-align: center;
 }
 
-h2 {
-    color: #1bdfd8;
-}
-
 footer {
+    bottom: 0;
+    width: 100%;
+    height: 20%; /* Ajuste la hauteur */
     text-align: center;
     font-size: 150%;
-    color: white;
-    padding: 1em 0;
-    margin-top: auto; /* Pousse le footer vers le bas */
+    background-color: #0e0e0e;
+    padding: 1em 0; 
+    margin-bottom: 100%;
 }
 
-.section-background-overlay-1 {
-    content: "";
-    position: absolute;
+
+
+
+/* Style de base pour les boutons de l'accordéon */
+.accordion {
+    background-color: #eee;
     border-radius: 8px;
-    top: 0;
-    left: 0;
+    color: #444;
+    cursor: pointer;
+    margin: 10px;
+    padding: 18px;
     width: 100%;
-    height: 100%;
-    background-image: url('https://i.gifer.com/YQgT.gif');
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0)); /* Masque standard */
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
 }
 
-.section-background-overlay-2 {
-    content: "";
-    position: absolute;
-    border-radius: 8px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://i.gifer.com/5m5h.gif');
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
+/* Lorsque le bouton est actif ou survolé */
+.active, .accordion:hover {
+    background-color: #ccc;
 }
 
+/* Style pour les panneaux de l'accordéon */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;  /* Panneau masqué par défaut */
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/* Ajoute une superposition d'arrière-plan si nécessaire */
 .section-background-overlay-3 {
-    content: "";
     position: absolute;
-    border-radius: 8px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://i.gifer.com/QHC.gif');
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
+    background: rgba(0, 0, 0, 0.1); /* Par exemple */
     z-index: -1;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
-}
-
-.section-background-overlay-4 {
-    content: "";
-    position: absolute;
-    border-radius: 8px;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://i.gifer.com/2swA.gif');
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
-    
 }
 
-
-.elementor-background-overlay {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://i.gifer.com/xK.gif'); /* Image de fond */
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px); /* Applique un flou à l'image */
-    z-index: -1; /* L'image se trouve derrière le texte */
-    background-color: #1b2838; /* La couleur de fond que tu veux derrière l'image */
-    
-    /* Applique le masque pour le dégradé d'opacité */
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0)); /* Masque standard */
+/* Conteneur des blocs */
+.expertise-container {
+    display: flex;
+    justify-content: space-between; /* Espace entre les blocs */
+    align-items: stretch; /* Alignement des blocs en hauteur */
+    margin-top: 20px;
+    padding: 10px;
 }
+
+/* Style des blocs */
+.expertise-block {
+    flex: 1; /* Tous les blocs ont la même largeur */
+    margin: 0; /* Espacement horizontal entre les blocs */
+    width: 400px; /* Largeur du bloc */
+    height: 400px; /* Hauteur égale à la largeur */
+    display: flex;
+    flex-direction: column; /* Organisation verticale */
+    position: relative; /* Nécessaire pour positionner le titre */
+    padding: 20px; /* Espacement interne */
+    background-color: transparent;
+    border: 1px solid white; /* Fine bordure blanche */
+    color: white; /* Couleur du texte */
+    font-size: 1rem; /* Taille de base du texte */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, margin 0.3s ease;
+}
+
+.block-title {
+    font-size: 200%; /* Taille du titre */
+    font-weight: bold;
+    display: flex; /* Utilise flexbox pour aligner l'image et le texte */
+    align-items: center; /* Centre l'image et le texte verticalement */
+    gap: 10px; /* Espace entre l'image et le texte */
+    margin: 0; /* Supprime les marges par défaut */
+}
+
+.title-image {
+    width: 40%; /* Largeur de l'image */
+    height: 50%; /* Hauteur de l'image */
+    margin: 0; /* Supprime toute marge autour de l'image */
+    padding: 0; /* Supprime tout padding autour de l'image */
+    display: inline-block; /* Empêche l'image d'être un élément de bloc complet */
+}
+
+/* Texte du bloc */
+.block-text {
+    font-size: 120%; /* Taille du texte */
+    margin: 0; /* Supprime les marges par défaut */
+    flex-grow: 1; /* Fait occuper l'espace restant */
+    display: flex; /* Flexbox pour centrer */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    margin-left: 10%;
+    margin-right: 10%;
+    top: 0px;
+}
+
+/* Effet au survol */
+.expertise-block:hover {
+    margin: 0.1%;
+    transform: translateY(-10px) scale(1.01); /* Légère élévation au survol */
+    box-shadow: 0 4px 15px 20px rgba(255, 255, 255, 0.2); /* Ombre subtile */
+}
+
+/* Conteneur responsive */
+@media (max-width: 768px) {
+    .expertise-container {
+        flex-direction: column; /* Les blocs s'empilent sur les petits écrans */
+        align-items: center;
+    }
+
+    .expertise-block {
+        width: 90%; /* Les blocs prennent toute la largeur */
+        height: auto; /* Ajuster la hauteur en fonction du contenu */
+    }
+    .expertise-block:hover {
+        margin: 0;
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 15px 20px rgba(255, 255, 255, 0.2); /* Ombre subtile */
+    }
+}
+
+section h2{
+    line-height: 0.5;
+    font-size: 500%;
+}
+
+/* Ajouter une animation ou un effet pour les éléments chargés */
+.loaded {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+  }
+  
+  /* Avant le chargement, rendre l'élément invisible */
+  [class]:not(.loaded) {
+    opacity: 0;
+  }

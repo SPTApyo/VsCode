@@ -1,0 +1,214 @@
+/* Positionnement fixe du bouton */
+.back-button {
+    display: none; /* Cacher le bouton initialement */
+    position: fixed;
+    bottom: 5%;
+    left: 2%;
+    background-color: transparent;
+    border: 2px solid #38b6ff;
+    color: #38b6ff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease; /* Transition pour l'opacité */
+    opacity: 0; /* Cacher le bouton en début */
+    transition: opacity 0.5s ease;
+}
+
+/* Image de l'icône */
+.back-icon {
+    width: 30px;  /* Taille de l'image à l'intérieur du bouton */
+    height: 30px; /* Taille de l'image à l'intérieur du bouton */
+}
+
+/* L'onde de choc */
+.ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(56, 182, 255, 0.9); /* Couleur de l'onde */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Empêche d'interférer avec le bouton */
+    animation: none; /* Pas d'animation par défaut */
+}
+
+/* Animation d'onde de choc */
+@keyframes rippleEffect {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    50% {
+        width: 100px; /* Taille de l'onde de choc */
+        height: 100px; /* Taille de l'onde de choc */
+        opacity: 0.3;
+    }
+    100% {
+        width: 150px; /* Taille de l'onde de choc */
+        height: 150px; /* Taille de l'onde de choc */
+        opacity: 0;
+    }
+}
+
+/* Pour améliorer l'apparence du bouton */
+.back-button:hover {
+    transform: scale(1.1);
+    background-color: #38b6ff;
+    color: white;
+}
+
+/* Animation du bouton */
+.back-button:active {
+    transform: scale(0.8); /* Le bouton ne bouge pas */
+    filter: brightness(0.5);
+}
+
+.cursor-orb {
+    position: absolute;
+    width: 7px;  /* Taille de l'orbe */
+    height: 7px; /* Taille de l'orbe */
+    background-color: #b39eff; /* Couleur de l'orbe */
+    border-radius: 50%;  /* Pour lui donner une forme ronde */
+    pointer-events: none; /* L'orbe ne doit pas interférer avec les événements de la souris */
+    transition: transform 0.1s ease; /* L'orbite se déplace en douceur */
+    z-index: 9999; /* Assurer qu'il soit au-dessus des autres éléments */
+    transition: transform 0.5s ease, opacity 0.3s ease, clip-path 0.5s ease, border-radius 0.3s ease;
+}
+
+.cursor-circle {
+    position: absolute;
+    width: 30px; /* Taille de l'orbe */
+    height: 30px;
+    border: 1.5px solid #b39eff; /* Bordure blanche */
+    border-radius: 50%; /* Rendre l'élément circulaire */
+    pointer-events: none; /* Permet au curseur de passer à travers l'élément */
+    transition: all 0.1s ease-in-out;
+    z-index: 9999;
+}
+
+.scroll-downs {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    padding-top: 1%;
+    width :34px;
+    height: 55px;
+  }
+  .mousey {
+    width: 3px;
+    padding: 10px 15px;
+    height: 35px;
+    border: 2px solid #fff;
+    border-radius: 25px;
+    opacity: 0.75;
+    box-sizing: content-box;
+  }
+  .scroller {
+    width: 3px;
+    height: 10px;
+    border-radius: 25%;
+    background-color: #fff;
+    animation-name: scroll;
+    animation-duration: 2.2s;
+    animation-timing-function: cubic-bezier(.15,.41,.69,.94);
+    animation-iteration-count: infinite;
+  }
+  @keyframes scroll {
+    0% { opacity: 0; }
+    10% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(15px); opacity: 0;}
+  }
+
+  .section-background-overlay-1 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmlrcXZ0ZHpxNXIwMHBmYmp0MXlybHRhcjNjam45cDc1cXk2eG5wbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gH1jGsCnQBiFHWMFzh/giphy.webp');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0)); /* Masque standard */
+}
+
+.section-background-overlay-2 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/5m5h.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
+}
+
+.section-background-overlay-3 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/QHC.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
+}
+
+.section-background-overlay-4 {
+    content: "";
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/2swA.gif');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0.5)); /* Masque standard */
+    
+}
+
+
+.elementor-background-overlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.gifer.com/xK.gif'); /* Image de fond */
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px); /* Applique un flou à l'image */
+    z-index: -1; /* L'image se trouve derrière le texte */
+    background-color: #1b2838; /* La couleur de fond que tu veux derrière l'image */
+    
+    /* Applique le masque pour le dégradé d'opacité */
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0)); /* Masque standard */
+}

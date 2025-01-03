@@ -1,100 +1,137 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Portfolio</title>
     <link rel="icon" href="img/logo2.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Russo+One&family=Work+Sans:ital,wght@0,100..900;1,100..900&" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Russo+One&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home" />
     <link rel="stylesheet" href="CSS/styles.css">
     <link rel="stylesheet" href="CSS/loader.css">
-    <link rel="stylesheet" href="CSS/back-button.css">
+    <link rel="stylesheet" href="CSS/decorations.css">
     <link rel="stylesheet" href="CSS/scroll-bar.css">
-</head>
-<body>
+  </head>
+  <body>
+    <div class="cursor-orb"></div>
+    <div class="cursor-circle"></div>
     <div id="loader">
-        <h1>Chargement ...</h1>
-        <div class="loader"></div>
+      <h1>Chargement ...</h1>
+      <div class="loader"></div>
     </div>
-    <a href="#" id="backButton" class="back-button">
-        <span class="ripple"></span> 
+    <div class="interactive">
+      <a href="#" id="backButton" class="back-button">
+        <span class="ripple"></span>
         <img src="img/home.svg" alt="Retour" class="back-icon">
-    </a>    
-    <header>
-        <nav>
-            <ul class="menu">
-                <li><a href="#accueil"><span class="button-number">01</span> // accueil</a></li>
-                <li><a href="#cv"><span class="button-number">02</span> // CV</a></li>
-                <li><a href="#projet"><span class="button-number">03</span> // projet professionnel</a></li>
-                <li><a href="#experience"><span class="button-number">04</span> // experience</a></li>
-                <li><a href="#contact"><span class="button-number">05</span> // contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="elementor-background-overlay"></div>
-    <main>
-        <div>
-            <section id="accueil">
-                
-                <h1>Bienvenue sur mon site personnel</h1>
-                <p>Ce site est un portfolio dédié à ma présentation professionnelle. Vous y découvrirez mon parcours académique et professionnel, mes projets en cours, ainsi que mes centres d'intérêt. Mon objectif est de partager mes compétences et de vous donner un aperçu de mes réalisations. N'hésitez pas à explorer les différentes sections pour en savoir plus !</p>
-            </section>        
-        <section id="cv">
-            <h2>Mon CV</h2>
-            <h3>Formations</h3>
-            <ul>
-                <li><strong>2024/2025</strong> - BUT Informatique</li>
-                <li><strong>2021/2024</strong> - Baccalauréat sciences et technologies de l'industrie et du développement durable - Systèmes d'information et numérique</li>
-                <li><strong>2020/2021</strong> - Diplôme du brevet des collèges</li>
-            </ul>
-        
-            <h3>Expériences Professionnelles</h3>
-            <ul>
-                <li>
-                    <strong>STAGE PRATIQUE : Magasinier</strong><br>
-                    <em>Centrale de Tournefeuille - 20/02/2019 - 30/01/2021</em><br>
-                    Logistique et stockage alimentaire<br>
-                    - Livraison alimentaire<br>
-                    - Gestion et inventaire du stockage alimentaire
-                </li>
-                <li>
-                    <strong>STAGE D’OBSERVATION : Usinage</strong><br>
-                    <em>GILLIS Aerospace</em><br>
-                    Usinage et conception de fixation aéronautique
-                </li>
-            </ul>
-        
-            <h3>Compétences</h3>
-            <ul>
-                <li><strong>Langues :</strong> Arabe (C2), Anglais (C1), Espagnol (niveau scolaire)</li>
-                <li><strong>Langages de programmation :</strong> Python, C, C Arduino, Java</li>
-                <li><strong>Logiciels maîtrisés :</strong> Arduino IDE, Code Blocks, Pycharm, SolidWorks</li>
-            </ul>
-            <div class="section-background-overlay-1"></div>
-        </section>        
-        <section id="projet">
-            <h2>Mon projet professionnel</h2>
-            <p>Une description de mes objectifs et aspirations.</p>
-            <div class="section-background-overlay-2"></div>
-        </section>
-        <section id="experience">
-            <h2>Mes centres d'intérêt</h2>
-            <p>Passions, loisirs et activités extra-professionnelles.</p>
-            <div class="section-background-overlay-3"></div>
-        </section>
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Vous pouvez me contacter à l'adresse : <a href="mailto:votre.email@example.com">votre.email@example.com</a></p>
-            <div class="section-background-overlay-4"></div>
-        </section>
+      </a>
     </div>
+    <div class="elementor-background-overlay"></div>
+    <header>
+      <nav>
+        <ul class="menu">
+          <li>
+            <a href="#" class="interactive">
+              <span class="button-number">01</span> // accueil </a>
+          </li>
+          <li>
+            <a href="#section1" class="interactive">
+              <span class="button-number">02</span> // expertise </a>
+          </li>
+          <li>
+            <a href="#section2" class="interactive">
+              <span class="button-number">03</span> // XXXXX </a>
+          </li>
+          <li>
+            <a href="#section3" class="interactive">
+              <span class="button-number">04</span> // experience </a>
+          </li>
+          <li>
+            <a href="#section4" class="interactive">
+              <span class="button-number">05</span> // contact </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div>
+        <div class="accueil" id="accueil">
+          <h1 class="name">LAROUSSI <br> NABIL </h1>
+          <p class="description">Développeur web front-end</p>
+          <a href="#section1" class="scroll-downs">
+            <div class="interactive">
+              <div class="mousey">
+                <div class="scroller"></div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <section id="section1">
+            <h2>Mon Expertise</h2>
+            
+            <div class="expertise-container">
+                <div class="expertise-block">
+                    <h3 class="block-title">
+                        <img src="img/computer.svg" alt="Icone Développement Logiciel" class="title-image" />
+                        Développement Logiciel
+                    </h3>
+                    <p class="block-text">
+                        Expertise en Java et C pour des applications robustes et optimisées, adaptées aux besoins utilisateurs et avec un souci constant de performance.
+                    </p>
+                </div>
+                <div class="expertise-block">
+                    <h3 class="block-title">
+                        <img src="img/code_blocks.svg" alt="Icone Développement Front-End" class="title-image" />
+                        Développement Front-End
+                    </h3>
+                    <p class="block-text">
+                        Création d'interfaces modernes et réactives avec HTML, CSS et JavaScript, en suivant les meilleures pratiques pour une expérience utilisateur optimale.
+                    </p>
+                </div>
+                <div class="expertise-block">
+                    <h3 class="block-title">
+                        <img src="img/group.svg" alt="Icone Gestion de Projets" class="title-image" />
+                        Gestion de Projets
+                    </h3>
+                    <p class="block-text">
+                        Planification et coordination agile des projets, gestion efficace des ressources et communication pour garantir la réussite de chaque projet.
+                    </p>
+                </div>
+            </div>
+              
+            
+            <div class="section-background-overlay-1"></div>
+          </section>
+        <section id="section2">
+          <h2>Mon projet professionnel</h2>
+          <p>Une description de mes objectifs et aspirations.</p>
+          <div class="section-background-overlay-2"></div>
+        </section>
+        <section id="section3">
+          <h2>Mon experience professionnel</h2>
+          <button class="accordion">Section 1</button>
+          <div class="panel">
+            <p>Lorem ipsum...</p>
+          </div>
+          <button class="accordion">Section 2</button>
+          <div class="panel">
+            <p>Lorem ipsum...</p>
+          </div>
+          <button class="accordion">Section 3</button>
+          <div class="panel">
+            <p>Lorem ipsum...</p>
+          </div>
+          <div class="section-background-overlay-3"></div>
+        </section>
+      </div>
     </main>
-    <footer>
-        <p>&copy; 2024-2025 - Mon Portfolio</p>
+    <footer id="section4">
+      <p>&copy; 2024-2025 - Mon Portfolio</p>
     </footer>
+    <script src="Js/optimisations.js"></script>
     <script src="Js/animations.js"></script>
-</body>
+    <script src="Js/stalker.js"></script>
+  </body>
 </html>

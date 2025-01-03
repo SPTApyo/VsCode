@@ -1,31 +1,6 @@
-/* Supprimer le fond de la scrollbar */
-::-webkit-scrollbar {
-    width: 12px; /* Largeur de la scrollbar */
-    height: 12px; /* Hauteur si vous avez un contenu scrollable horizontal */
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    position: fixed;
-    right: 20px; /* Décalage de la scrollbar du bord droit de l'écran */
-    top: 0;
-}
-
-/* Suppression du fond de la scrollbar (aucune couleur de fond pour la piste) */
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Style du pouce de la scrollbar */
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5); /* Couleur du pouce */
-    border-radius: 10px;
-}
-
-/* Pouce de la scrollbar au survol */
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-/* Quand l'utilisateur fait défiler, la scrollbar devient visible */
-.scrollable-content.scroll-active::-webkit-scrollbar {
-    opacity: 1;
+* {
+    &::-webkit-scrollbar {
+        width: 0px;
+        background-color: transparent;
+    }
 }
