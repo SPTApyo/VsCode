@@ -1,332 +1,317 @@
-/* Fond avec le dégradé */
-body, html {
-    font-display: "Work Sans", serif;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    scroll-behavior: smooth;
+body,
+html {
+	font-family: "Work Sans", serif;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	scroll-behavior: smooth;
 }
 
 body {
-    position: relative;
-    min-height: 100vh;
-    background: linear-gradient(to bottom, 
-                #121b25 0%,   
-                #1b2838 5%,  
-                #1b2838 10%,      
-                #1b2838 90%,     
-                #1b2838 95%,
-                #121b25 100%);
-    background-size: 100% 100%;
-    background-attachment: fixed;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+	position: relative;
+	min-height: 100vh;
+	background: linear-gradient(to bottom,
+			#121b25 0%,
+			#1b2838 5%,
+			#1b2838 10%,
+			#1b2838 90%,
+			#1b2838 95%,
+			#121b25 100%);
+	background-size: 100% 100%;
+	background-attachment: fixed;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
 }
 
-/* Navigation */
+
 header {
-    position: relative; /* Initialement en position relative */
-    top: 10px;
-    padding: 20px;
-    transition: top 0.5s ease, background-color 0.3s ease;
-    background-color: transparent; /* Fond transparent au départ */
-    z-index: 1000; /* Pour s'assurer qu'il soit au-dessus du contenu */
+	position: relative;
+	top: 10px;
+	padding: 20px;
+	transition: top 0.5s ease, background-color 0.3s ease;
+	background-color: transparent;
+	z-index: 1000;
+
 }
 
 header.scrolled {
-    position: fixed;
-    animation: slideDown 0.5s forwards;
-    width: 100%;
-    padding: 20px;
-    background-color: rgba(26, 26, 26, 0.418); /* Fond noir semi-transparent */
-    backdrop-filter: blur(10px); 
+	position: fixed;
+	animation: slideDown 0.5s forwards;
+	width: 100%;
+	background-color: #16212e88;
+
+	backdrop-filter: blur(15px);
 }
 
 @keyframes slideDown {
-    0% {
-        top: -100px; /* Hors de l'écran */
-    }
-    100% {
-        top: 0; /* Affiché en haut de la page */
-    }
+	0% {
+		top: -100px;
+
+	}
+
+	100% {
+		top: 0;
+
+	}
 }
 
 header:not(.scrolled) {
-    animation: slideUp 0.5s forwards; /* Animation pour la disparition */
+	animation: slideUp 0.5s forwards;
+
 }
 
-/* Animation de glissement vers le haut */
+
 @keyframes slideUp {
-    0% {
-        top: -100px; /* Position du header lorsqu'il est visible */
-    }
-    100% {
-        top: 0px; /* Le header disparaît vers le haut */
-    }
+	0% {
+		top: -100px;
+
+	}
+
+	100% {
+		top: 0px;
+
+	}
 }
 
 
-/* Menu setup */
 .menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
 }
 
 .menu li {
-    margin: 0 20px;
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transition pour l'opacité et transformation */
+	margin: 0 20px;
+	transition: opacity 0.3s ease, transform 0.3s ease;
+
 }
 
 .menu a {
-    font-display: "Lexend Deca", serif;
-    font-size: 190%;
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    position: relative;
-    display: inline-block;
-    transition: transform 0.2s ease-in-out, text-decoration-thickness 0.2s ease-in-out;
+	font-family: "Lexend Deca", serif;
+	font-size: 190%;
+	text-decoration: none;
+	color: rgb(255, 255, 255);
+	font-weight: bold;
+	position: relative;
+	display: inline-block;
+	transition: transform 0.2s ease-in-out, text-decoration-thickness 0.2s ease-in-out;
 }
 
 .menu a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 4px;
-    transform: translateY(-5px) scale(1.05);
-    color: #38b6ff;
+	text-decoration: underline;
+	text-decoration-thickness: 4px;
+	transform: translateY(-5px) scale(1.05);
+	color: #38b6ff;
 }
 
 .menu a:active {
-    transform: scale(0.8);
-    filter: brightness(0.5);
+	transform: scale(0.8);
+	filter: brightness(0.5);
 }
 
 .button-number {
-    font-display: "Russo One", serif;
-    font-size: 12px;
-    font-style: normal;
-    position: absolute;
-    top: -35%; /* Positionner un peu au-dessus du bouton */
-    right: 0%; /* Décaler légèrement à droite */
-    color: rgb(199, 199, 199); /* Couleur du chiffre */
-    padding: 2px 5px;
-    border-radius: 50%; /* Pour avoir un petit cercle */
-    font-weight: bold;
+	font-family: "Russo One", serif;
+	font-size: 12px;
+	font-style: normal;
+	position: absolute;
+	top: -35%;
+
+	right: 0%;
+
+	color: rgb(199, 199, 199);
+
+	padding: 2px 5px;
+	border-radius: 50%;
+
+	font-weight: bold;
 }
 
 main {
-    padding: 2em 1em;
-    color: white;
-    padding-top: 50%;
-    display: flex;
-    justify-content: center;  /* Centre horizontalement */
-    align-items: flex-start; 
+	padding: 2em 1em;
+	color: white;
+	margin-top: 9%;
+	display: flex;
+	justify-content: center;
+
+	align-items: flex-start;
 }
 
+
 section {
-    position: relative; /* Permet à l'overlay de se positionner correctement à l'intérieur */
-    padding-top: 50px; /* Ajoute un espace au-dessus de chaque section */
-    margin-top: 0;
-    padding: 2em;
-    margin-top: 10%;
-    background: #16202d; /* Couleur de fond de la section */
-    border-radius: 8px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease-in-out;
-    overflow: hidden; /* Empêche l'image de fond de déborder */
+	transition: transform 0.2s ease-in-out, opacity 1s ease, visibility 1s ease;
+	position: relative;
+	padding-top: 50px;
+	padding: 2em;
+	padding-bottom: 3%;
+	margin-top: 10%;
+	background: #16202d88;
+	border: 1px solid #ffffff08;
+
+	border-radius: 8px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+}
+
+section h2 {
+	line-height: 1;
+	font-size: 500%;
+	margin: 2%;
 }
 
 section:hover {
-    transform: scale(1.02);
+	transform: scale(1.02);
 }
 
 .accueil {
-    position: absolute;
-    top: 10%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    padding: 2em;
-   /* Couleur de fond de la section */
-    border-radius: 8px;
-    transition: transform 0.2s ease-in-out;
-    overflow: hidden; /* Empêche l'image de fond de déborder */
-    width: 80%; /* Définir une largeur, ajuster selon tes besoins */
-    height: 70%;
-    backdrop-filter: blur(10px); 
-    
-}
-.name{
-    font-display: 'Poppins', sans-serif;
-    text-align: center;
-    line-height: 1.1;
-    font-size: 1500%;
-    margin: 5%;
+	margin-top: 2%;
+	padding: 2em;
+	padding-bottom: 5%;
+	border-radius: 8px;
+	border: 1px solid #ffffff08;
+	color: white;
+	transition: transform 0.2s ease-in-out;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	backdrop-filter: blur(10px);
+	z-index: 1;
 }
 
-.description{
-    text-align: center;
-    font-weight: bold;
-    position: relative;
-    top: -100px;
-    font-size: 250%;
-    
+.name {
+	font-family: 'Poppins', sans-serif;
+	text-align: center;
+	line-height: 0.9;
+	font-size: 10vw;
+	top: 0;
+	margin: 0;
+	margin-top: 4.9%;
 }
-h1, h2 {
-    text-align: center;
+
+
+.description {
+	text-align: center;
+	font-weight: bold;
+	position: relative;
+	font-size: 250%;
+
+	opacity: 0;
+	transform: translateY(50px);
+
+
+	transition: opacity 1s ease-in, transform 1s ease-out;
+	margin-top: 0;
+	margin-bottom: 4%;
+}
+
+.description.show {
+	opacity: 1;
+	transform: translateY(0);
+
+}
+
+h1,
+h2 {
+	text-align: center;
+}
+
+.wrapper {
+	margin-top: 5%;
+	width: 100%;
 }
 
 footer {
-    bottom: 0;
-    width: 100%;
-    height: 20%; /* Ajuste la hauteur */
-    text-align: center;
-    font-size: 150%;
-    background-color: #0e0e0e;
-    padding: 1em 0; 
-    margin-bottom: 100%;
+    font-family: 'Poppins', sans-serif;
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+	background: linear-gradient(to left, #430d79, #0e0e0e, #0e0e0e, #0e0e0e, #0e0e0e, #0e0e0e, #430d79);
+	color: white;
+	height: 100%;
+}
+
+.footer-content {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 1200px;
+
+}
+
+.footer-text-contact {
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+}
+
+.footer-text {
+	width: 60%;
+	margin-bottom: 10%;
+
+}
+
+.footer-text h3 {
+	font-size: 40px;
+	font-weight: bold;
+	flex: 1;
+}
+
+.footer-text p {
+	font-size: 19px;
+	flex: 1;
+}
+
+.footer-contact {
+	text-decoration: underline;
+	text-decoration-color: #740cdc;
+	font-size: 26px;
+	width: 55%;
+}
+
+.footer-contact li {
+	font-size: 20px;
+	padding: 5px;
+	padding-left: 0;
 }
 
 
-
-
-/* Style de base pour les boutons de l'accordéon */
-.accordion {
-    background-color: #eee;
-    border-radius: 8px;
-    color: #444;
-    cursor: pointer;
-    margin: 10px;
-    padding: 18px;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: 0.4s;
+.footer-contact ul {
+	list-style-type: none;
+	padding: 0;
 }
 
-/* Lorsque le bouton est actif ou survolé */
-.active, .accordion:hover {
-    background-color: #ccc;
+
+.footer-contact a {
+	color: #ffffff;
+	text-decoration: none;
 }
 
-/* Style pour les panneaux de l'accordéon */
-.panel {
-    padding: 0 18px;
-    background-color: white;
-    display: none;  /* Panneau masqué par défaut */
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-}
 
-/* Ajoute une superposition d'arrière-plan si nécessaire */
-.section-background-overlay-3 {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.1); /* Par exemple */
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-}
-
-/* Conteneur des blocs */
-.expertise-container {
-    display: flex;
-    justify-content: space-between; /* Espace entre les blocs */
-    align-items: stretch; /* Alignement des blocs en hauteur */
-    margin-top: 20px;
-    padding: 10px;
-}
-
-/* Style des blocs */
-.expertise-block {
-    flex: 1; /* Tous les blocs ont la même largeur */
-    margin: 0; /* Espacement horizontal entre les blocs */
-    width: 400px; /* Largeur du bloc */
-    height: 400px; /* Hauteur égale à la largeur */
-    display: flex;
-    flex-direction: column; /* Organisation verticale */
-    position: relative; /* Nécessaire pour positionner le titre */
-    padding: 20px; /* Espacement interne */
-    background-color: transparent;
-    border: 1px solid white; /* Fine bordure blanche */
-    color: white; /* Couleur du texte */
-    font-size: 1rem; /* Taille de base du texte */
-    transition: transform 0.3s ease, box-shadow 0.3s ease, margin 0.3s ease;
-}
-
-.block-title {
-    font-size: 200%; /* Taille du titre */
-    font-weight: bold;
-    display: flex; /* Utilise flexbox pour aligner l'image et le texte */
-    align-items: center; /* Centre l'image et le texte verticalement */
-    gap: 10px; /* Espace entre l'image et le texte */
-    margin: 0; /* Supprime les marges par défaut */
-}
-
-.title-image {
-    width: 40%; /* Largeur de l'image */
-    height: 50%; /* Hauteur de l'image */
-    margin: 0; /* Supprime toute marge autour de l'image */
-    padding: 0; /* Supprime tout padding autour de l'image */
-    display: inline-block; /* Empêche l'image d'être un élément de bloc complet */
-}
-
-/* Texte du bloc */
-.block-text {
-    font-size: 120%; /* Taille du texte */
-    margin: 0; /* Supprime les marges par défaut */
-    flex-grow: 1; /* Fait occuper l'espace restant */
-    display: flex; /* Flexbox pour centrer */
-    justify-content: center; /* Centre horizontalement */
-    align-items: center; /* Centre verticalement */
-    margin-left: 10%;
-    margin-right: 10%;
-    top: 0px;
-}
-
-/* Effet au survol */
-.expertise-block:hover {
-    margin: 0.1%;
-    transform: translateY(-10px) scale(1.01); /* Légère élévation au survol */
-    box-shadow: 0 4px 15px 20px rgba(255, 255, 255, 0.2); /* Ombre subtile */
-}
-
-/* Conteneur responsive */
 @media (max-width: 768px) {
-    .expertise-container {
-        flex-direction: column; /* Les blocs s'empilent sur les petits écrans */
-        align-items: center;
-    }
+	.expertise-container {
+		flex-direction: column;
+		align-items: center;
+	}
 
-    .expertise-block {
-        width: 90%; /* Les blocs prennent toute la largeur */
-        height: auto; /* Ajuster la hauteur en fonction du contenu */
-    }
-    .expertise-block:hover {
-        margin: 0;
-        transform: translateY(0) scale(1);
-        box-shadow: 0 4px 15px 20px rgba(255, 255, 255, 0.2); /* Ombre subtile */
-    }
+	.expertise-block {
+		width: 90%;
+		height: auto;
+	}
+
+	.expertise-block:hover {
+		margin: 0;
+		transform: translateY(0) scale(1);
+		box-shadow: 0 4px 15px 20px rgba(255, 255, 255, 0.2);
+	}
+
+	body,
+	html {
+		flex-direction: column;
+		align-items: center;
+        gap: 10%;
+	}
 }
-
-section h2{
-    line-height: 0.5;
-    font-size: 500%;
-}
-
-/* Ajouter une animation ou un effet pour les éléments chargés */
-.loaded {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
-  }
-  
-  /* Avant le chargement, rendre l'élément invisible */
-  [class]:not(.loaded) {
-    opacity: 0;
-  }

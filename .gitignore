@@ -8777,3 +8777,8 @@ vscode-profile-2024-12-27-22-15-02.cpuprofile
 vscode-profile*
 .gitignore
 .gitignore
+HTML/PortFolio/Private cert/ca_bundle.crt
+HTML/PortFolio/Private cert/certificate.crt
+HTML/PortFolio/Private cert/CSR.txt
+HTML/PortFolio/Private cert/Private Key.txt
+HTML/PortFolio/README.txt

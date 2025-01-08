@@ -7,9 +7,7 @@
     <link rel="icon" href="img/logo2.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Russo+One&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Russo+One&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/styles.css">
     <link rel="stylesheet" href="CSS/loader.css">
     <link rel="stylesheet" href="CSS/decorations.css">
@@ -19,117 +17,221 @@
     <div class="cursor-orb"></div>
     <div class="cursor-circle"></div>
     <div id="loader">
-      <h1>Chargement ...</h1>
+      <h1>Chargement en cours...</h1>
       <div class="loader"></div>
     </div>
     <div class="interactive">
       <a href="#" id="backButton" class="back-button">
         <span class="ripple"></span>
-        <img src="img/home.svg" alt="Retour" class="back-icon">
+        <img src="img/home.svg" alt="Retour à l'accueil" class="back-icon">
       </a>
     </div>
-    <div class="elementor-background-overlay"></div>
+    <div class="elementor-background-overlay">
+      <video autoplay muted loop playsinline class="illustrations illustration-acceuil">
+        <source src="vid/Background1.mp4" alt="Fond vidéo d'accueil" type="video/mp4"> Votre navigateur ne supporte pas la balise vidéo.
+      </video>
+    </div>
     <header>
       <nav>
         <ul class="menu">
           <li>
             <a href="#" class="interactive">
-              <span class="button-number">01</span> // accueil </a>
+              <span class="button-number">01</span> // Accueil </a>
           </li>
           <li>
             <a href="#section1" class="interactive">
-              <span class="button-number">02</span> // expertise </a>
+              <span class="button-number">02</span> // Expertise </a>
           </li>
           <li>
             <a href="#section2" class="interactive">
-              <span class="button-number">03</span> // XXXXX </a>
+              <span class="button-number">03</span> // Formation </a>
           </li>
           <li>
             <a href="#section3" class="interactive">
-              <span class="button-number">04</span> // experience </a>
+              <span class="button-number">04</span> // Expérience </a>
           </li>
           <li>
             <a href="#section4" class="interactive">
-              <span class="button-number">05</span> // contact </a>
+              <span class="button-number">05</span> // Contact </a>
           </li>
         </ul>
       </nav>
     </header>
+    <div class="accueil" id="accueil">
+      <h1 class="name">LAROUSSI <br> NABIL </h1>
+      <p class="description">━━━━━━━━━━━━━━━━━━━ <br>
+        <br>Développeur web front-end
+      </p>
+      <a href="#section1" class="scroll-downs">
+        <div class="mousey interactive">
+          <div class="scroller"></div>
+        </div>
+      </a>
+    </div>
     <main>
       <div>
-        <div class="accueil" id="accueil">
-          <h1 class="name">LAROUSSI <br> NABIL </h1>
-          <p class="description">Développeur web front-end</p>
-          <a href="#section1" class="scroll-downs">
-            <div class="interactive">
-              <div class="mousey">
-                <div class="scroller"></div>
+        <section id="section1">
+          <h2>Mon Expertise</h2>
+          <div class="expertise-container">
+            <div class="expertise-block">
+              <h3 class="block-title">
+                <img data-src="img/computer.png" alt="Icône Développement Logiciel" class="title-image"> Développement Logiciel
+              </h3>
+              <p class="block-text"> Expérience en programmation fonctionnelle et orientée objet : C/C++, Python, Java, JavaScript, et TypeScript. </p>
+            </div>
+            <div class="expertise-block">
+              <h3 class="block-title">
+                <img data-src="img/code_block.png" alt="Icône Développement Web" class="title-image"> Développement Web
+              </h3>
+              <p class="block-text"> Expert en UI/UX, spécialisé dans le développement avec HTML, CSS, JavaScript et les frameworks React et Next.js. </p>
+            </div>
+            <div class="expertise-block">
+              <h3 class="block-title">
+                <img data-src="img/group.png" alt="Icône Gestion de Projets" class="title-image"> Gestion de Projets
+              </h3>
+              <p class="block-text"> Planification et coordination agile des projets, gestion efficace des ressources et communication pour garantir la réussite de chaque projet. </p>
+            </div>
+          </div>
+          <div class="section-background-overlay-1">
+            <video autoplay muted loop playsinline class="illustrations">
+              <source data-src="vid/Background2.mp4" alt="Fond vidéo Expertise" type="video/mp4"> Votre navigateur ne supporte pas la balise vidéo.
+            </video>
+          </div>
+        </section>
+        <section id="section2">
+          <h2>Ma Formation</h2>
+          <div class="container">
+            <button class="accordion">BUT 1 - Informatique <span class="accordion-date">2024 - Présent</span>
+            </button>
+            <div class="panel">
+              <p>Compétences :</p>
+              <ul>
+                <li>Développement d'interfaces web</li>
+                <li>Création de maquettes web</li>
+                <li>Développement d'applications Java</li>
+                <li>Création de bases de données Oracle</li>
+                <li>Gestion de projets variés</li>
+                <li>Gestion d'équipes</li>
+              </ul>
+              <div class="languages">
+                <span class="language" title="Java">Java</span>
+                <span class="language" title="Python">Python</span>
+                <span class="language" title="SQL">SQL Oracle</span>
+                <span class="language" title="HTML">HTML</span>
+                <span class="language" title="CSS">CSS</span>
+                <span class="language" title="JavaScript">JavaScript</span>
               </div>
             </div>
-          </a>
-        </div>
-        <section id="section1">
-            <h2>Mon Expertise</h2>
-            
-            <div class="expertise-container">
-                <div class="expertise-block">
-                    <h3 class="block-title">
-                        <img src="img/computer.svg" alt="Icone Développement Logiciel" class="title-image" />
-                        Développement Logiciel
-                    </h3>
-                    <p class="block-text">
-                        Expertise en Java et C pour des applications robustes et optimisées, adaptées aux besoins utilisateurs et avec un souci constant de performance.
-                    </p>
-                </div>
-                <div class="expertise-block">
-                    <h3 class="block-title">
-                        <img src="img/code_blocks.svg" alt="Icone Développement Front-End" class="title-image" />
-                        Développement Front-End
-                    </h3>
-                    <p class="block-text">
-                        Création d'interfaces modernes et réactives avec HTML, CSS et JavaScript, en suivant les meilleures pratiques pour une expérience utilisateur optimale.
-                    </p>
-                </div>
-                <div class="expertise-block">
-                    <h3 class="block-title">
-                        <img src="img/group.svg" alt="Icone Gestion de Projets" class="title-image" />
-                        Gestion de Projets
-                    </h3>
-                    <p class="block-text">
-                        Planification et coordination agile des projets, gestion efficace des ressources et communication pour garantir la réussite de chaque projet.
-                    </p>
-                </div>
+          </div>
+          <div class="container">
+            <button class="accordion">Baccalauréat STI2D - Systèmes d'Information et Numérique <span class="accordion-date">2021 - 2024</span>
+            </button>
+            <div class="panel">
+              <p>Compétences :</p>
+              <ul>
+                <li>Développement de systèmes embarqués (Arduino)</li>
+                <li>Développement d'interfaces web</li>
+                <li>Modélisation 3D SolidWorks</li>
+                <li>Impression 3D et fabrication additive</li>
+                <li>Découpe laser et prototypage rapide</li>
+                <li>Gestion de projet et d'équipe</li>
+              </ul>
+              </p>
+              <div class="languages">
+                <span class="language" title="Arduino">Arduino C/C++</span>
+                <span class="language" title="Python">Python</span>
+                <span class="language" title="HTML">HTML</span>
+                <span class="language" title="CSS">CSS</span>
+              </div>
             </div>
-              
-            
-            <div class="section-background-overlay-1"></div>
-          </section>
-        <section id="section2">
-          <h2>Mon projet professionnel</h2>
-          <p>Une description de mes objectifs et aspirations.</p>
-          <div class="section-background-overlay-2"></div>
+          </div>
+          <div class="container">
+            <button class="accordion">Diplôme du Brevet des Collèges <span class="accordion-date">2020 - 2021</span>
+            </button>
+            <div class="panel">
+              <p>Compétences :</p>
+              <ul>
+                <li>Introduction à l'informatique</li>
+                <li>Acquisition des bases fondamentales</li>
+              </ul>
+              </p>
+            </div>
+          </div>
+          <div class="section-background-overlay-2">
+            <video autoplay muted loop playsinline class="illustrations">
+              <source data-src="vid/Background3.mp4" alt="Fond vidéo Formation" type="video/mp4"> Votre navigateur ne supporte pas la balise vidéo.
+            </video>
+          </div>
         </section>
         <section id="section3">
-          <h2>Mon experience professionnel</h2>
-          <button class="accordion">Section 1</button>
-          <div class="panel">
-            <p>Lorem ipsum...</p>
+          <h2>Mes Expériences <br> Professionnelles </h2>
+          <div class="container">
+            <button class="accordion">Usinage @ GILLIS Aerospace <span class="accordion-date">2021</span>
+            </button>
+            <div class="panel">
+              <p>Compétences :</p>
+              <ul>
+                <li>Usinage et conception aéronautiques</li>
+                <li>Lecture de plans</li>
+                <li>Utilisation des machines CNC et conventionnelles</li>
+                <li>Manipulation de matériaux</li>
+                <li>Respect des normes qualité et sécurité</li>
+                <li>Maintenance des équipements</li>
+                <li>Gestion de projets en atelier</li>
+              </ul>
+              </p>
+            </div>
           </div>
-          <button class="accordion">Section 2</button>
-          <div class="panel">
-            <p>Lorem ipsum...</p>
+          <div class="container">
+            <button class="accordion">Magasinier @ Cuisine Centrale de Tournefeuille <span class="accordion-date">2019</span>
+            </button>
+            <div class="panel">
+              <p>Compétences :</p>
+              <ul>
+                <li>Logistique et stockage alimentaire</li>
+                <li>Livraison alimentaire</li>
+                <li>Gestion et inventaire du stockage alimentaire</li>
+              </ul>
+              </p>
+            </div>
           </div>
-          <button class="accordion">Section 3</button>
-          <div class="panel">
-            <p>Lorem ipsum...</p>
+          <div class="section-background-overlay-3">
+            <video autoplay muted loop playsinline class="illustrations">
+              <source data-src="vid/Background4.mp4" type="video/mp4"> Your browser does not support the video tag.
+            </video>
           </div>
-          <div class="section-background-overlay-3"></div>
         </section>
       </div>
     </main>
-    <footer id="section4">
-      <p>&copy; 2024-2025 - Mon Portfolio</p>
-    </footer>
+    <div class="wrapper">
+      <footer id="section4">
+        <div class="footer-content">
+          <div class="footer-text-contact">
+            <div class="footer-text">
+              <h3>Ouvert aux opportunités freelance</h3>
+              <p>Vous avez un projet passionnant et avez besoin d'aide ? <br> Contactez-moi par email ou messagerie instantanée, et discutons-en ! </p>
+            </div>
+            <div class="footer-contact">
+              <a href="mailto:dummy@mail.com" title="Envoyer un email">dummy@mail.com</a>
+              <ul>
+                <li>
+                  <a href="https://m.me/" title="Contacter sur Messenger">Messenger</a>
+                </li>
+                <li>
+                  <a href="https://twitter.com/" title="Mon profil Twitter">Twitter</a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com/" title="Mon profil Instagram">Instagram</a>
+                </li>
+                <li>
+                  <a href="https://github.com/" title="Mon profil GitHub">GitHub</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
     <script src="Js/optimisations.js"></script>
     <script src="Js/animations.js"></script>
     <script src="Js/stalker.js"></script>

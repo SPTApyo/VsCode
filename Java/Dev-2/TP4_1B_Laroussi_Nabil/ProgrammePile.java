@@ -1,7 +1,6 @@
 /**
  * 
- *
- * @author
+ * @author Laroussi Nabil
  */
 public class ProgrammePile
 {
@@ -9,7 +8,8 @@ public class ProgrammePile
 
 
     public static void main(String[] args) {
-        Pile pile = new Pile(50) ;
+
+        Pile pile = new Pile(50);
          try {                         
             System.out.println("La pile est vide ? : " + estVide(pile));
             System.out.println("Rajout d'elements dans la pile en cours ...");

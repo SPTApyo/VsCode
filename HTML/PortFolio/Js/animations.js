@@ -1,105 +1,80 @@
+const backButton = document.getElementById('backButton');
+const header = document.querySelector('header');
+const mousey = document.querySelector('.mousey');
+const ripple = backButton.querySelector('.ripple');
+const accueil = document.querySelector('.accueil');
+let initialMarginTop = parseInt(window.getComputedStyle(accueil).marginTop, 10) || 0;
+
+
 document.onreadystatechange = () => {
     if (document.readyState === 'complete') {
         const loader = document.getElementById('loader');
         const loaderStylesheet = document.querySelector('link[href="CSS/loader.css"]');
-        
-        // Appliquer l'animation
+        const descElement = document.querySelector('.description');
+
+        mousey.style.opacity = '0';
         loader.style.animation = "shrink-circle 0.5s ease forwards";
 
-        // Supprimer le loader et la feuille de style une fois l'animation terminée
         loader.addEventListener('animationend', () => {
-            loader.remove(); // Retirer le loader du DOM
-            if (loaderStylesheet) {
-                loaderStylesheet.remove(); // Retirer la feuille de style du DOM pour libérer la mémoire
-            }
+            loader.remove();
+            descElement.classList.add('show');
+            if (loaderStylesheet) loaderStylesheet.remove();
+            setTimeout(() => {
+            mousey.style.opacity = '1';
+            mousey.classList.add('show')
+            }, "1000");
         });
     }
 };
 
-document.getElementById('backButton').addEventListener('click', function(e) {
-    const ripple = this.querySelector('.ripple');
-    
-    // Réinitialise l'animation de l'onde (pour qu'elle puisse être relancée)
+document.getElementById('backButton').addEventListener('click', function() {
     ripple.style.animation = 'none';
-    
-    // Forcer la réinitialisation de l'animation
-    void ripple.offsetWidth;
-    
-    // Lance l'animation d'onde
-    ripple.style.animation = 'rippleEffect 0.5s ease-out';
+    ripple.offsetWidth;
+    ripple.style.animation = 'rippleEffect 0.4s ease-out';
 });
 
 window.addEventListener('scroll', () => {
-    const backButton = document.getElementById('backButton');
-    const ripple = backButton.querySelector('.ripple'); // Sélectionne l'élément ripple
-    const header = document.querySelector('header'); // Sélectionner le header
+    const headerHeight = header.offsetHeight;
 
-    // Logique pour afficher ou masquer le bouton de retour avec effet fade-in
-    if (window.scrollY > 100) {
+    if (window.scrollY > 50) {
         backButton.style.display = 'flex';
         header.classList.add('scrolled');
+        accueil.style.marginTop = `${initialMarginTop + headerHeight}px`;
+        mousey.style.opacity = '0';
         setTimeout(() => {
             backButton.style.opacity = '1';
-            // Lancer l'animation de l'onde de choc
-            ripple.style.animation = 'rippleEffect 0.5s linear';
+            ripple.style.animation = 'rippleEffect 0.4s linear';
         }, 50);
     } else {
+        accueil.style.marginTop = `${initialMarginTop}px`;
+        mousey.style.opacity = '1';
         backButton.style.opacity = '0';
         header.classList.remove('scrolled');
         setTimeout(() => {
-            if (window.scrollY <= 100) {
-                backButton.style.display = 'none';
-                
+            if (window.scrollY < 50) {
+                backButton.style.opacity = '0';
             }
         }, 500);
     }
 });
 
-
-// Sélectionner l'élément scrollable
-const scrollableContent = document.querySelector('.scrollable-content');
-
-// Variable pour limiter le fade-out
-let scrollTimeout;
-
-// Fonction pour afficher ou cacher la scrollbar avec une animation de fade-in/fade-out
-function handleScroll() {
-    // Lorsque l'utilisateur défile, afficher la scrollbar
-    scrollableContent.classList.add('scroll-active');
-
-    // Si un timeout est déjà actif, on le réinitialise
-    if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-    }
-
-    // Démarrer un nouveau timeout pour cacher la scrollbar après 1 seconde sans défilement
-    scrollTimeout = setTimeout(() => {
-        scrollableContent.classList.remove('scroll-active');
-    }, 1000); // 1 seconde d'attente
-}
-
-// Écouter l'événement de défilement
-scrollableContent.addEventListener('scroll', handleScroll);
-
-// Récupère tous les boutons avec la classe "accordion"
-var accordions = document.getElementsByClassName("accordion");
-
-// Ajoute un événement de clic à chaque bouton
-for (var i = 0; i < accordions.length; i++) {
-    accordions[i].addEventListener("click", function() {
-        // Basculer la classe "active" sur le bouton cliqué
-        this.classList.toggle("active");
-
-        // Récupérer le panneau qui suit immédiatement le bouton cliqué
-        var panel = this.nextElementSibling;
-
-        // Si le panneau est actuellement affiché, le masquer
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
+const accordions = document.getElementsByClassName("accordion");
+for (const accordion of accordions) {
+    accordion.addEventListener("click", () => {
+        const panel = accordion.nextElementSibling;
+        const isActive = panel.classList.contains("show");
+        if (isActive) {
+            panel.classList.remove("show");
+            accordion.classList.remove("active");
         } else {
-            // Sinon, afficher le panneau
-            panel.style.display = "block";
+            const panels = document.getElementsByClassName("panel");
+            const allAccordions = document.getElementsByClassName("accordion");
+
+            Array.from(panels).forEach(p => p.classList.remove("show"));
+            Array.from(allAccordions).forEach(acc => acc.classList.remove("active"));
+            
+            panel.classList.add("show");
+            accordion.classList.add("active");
         }
     });
 }
-

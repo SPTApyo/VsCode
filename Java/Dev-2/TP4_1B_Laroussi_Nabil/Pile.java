@@ -1,8 +1,7 @@
 
 /**
  * 
- *
- * @author
+ * @author Laroussi Nabil
  */
 public class Pile
 {
