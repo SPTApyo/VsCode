@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Mention
+comment0.text=\r\n\ Indiquer\ le\ ou\ les\ numeros\ de\ TP\ et\ d'exercice.\r\n\r\n\ @author\ (votre\ nom)\r\n
+comment1.params=pfBorneInf\ pfBorneSup
+comment1.target=double\ saisieC(double,\ double)
+comment1.text=\r\n\ permet\ de\ retourner\ une\ valeur\ entiere\ saisie\ au\ clavier\ comprise\ entre\ pfBorneInf\ et\ pfBorneSup\r\n\ @param\ pfBorneInf\ IN\ borne\ inf\u00E9rieure\r\n\ @param\ pfBorneSup\ IN\ borne\ sup\u00E9rieure\r\n\ @return\ une\ valeur\ comprise\ entre\ pfBorneInf\ et\ pfBorneSup\r\n
+comment2.params=
+comment2.target=void\ calcul()
+numComments=3

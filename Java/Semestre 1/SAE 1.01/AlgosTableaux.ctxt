@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=AlgosTableaux
+comment1.params=pfBorneInf\ pfBorneSup
+comment1.target=int\ saisieIntC(int,\ int)
+comment1.text=\r\n\ Demande\ \u00E0\ l'utilisateur\ de\ saisir\ un\ entier,\ jusqu'\u00E0\ ce\ que\r\n\ l'entier\ saisi\ soit\ entre\ les\ deux\ bornes\ en\ param\u00E8tres.\r\n\r\n\ @param\ pfBorneInf\ IN\ \:\ borne\ inf\u00E9rieure\r\n\ @param\ pfBorneSup\ IN\ \:\ borne\ sup\u00E9rieure\r\n\r\n\ @return\ un\ entier\ entre\ pfBorneInf\ et\ pfBorneSup,\ compris\r\n
+comment2.params=pfTab
+comment2.target=int\ saisirTableau(int[])
+comment2.text=\r\n\ Demande\ \u00E0\ l'utilisateur\ \:\r\n\ \ \ 1.\ de\ saisir\ le\ nombre\ de\ cases\ qu'il\ souhaite\ remplir,\ et\r\n\ \ \ \ \ \ r\u00E9p\u00E8te\ l'op\u00E9ration,\ jusqu'\u00E0\ ce\ que\ ce\ nombre\ soit\r\n\ \ \ \ \ \ acceptable\r\n\ \ \ 2.\ de\ remplir\ les\ cases\ une\ \u00E0\ une.\r\n\r\n\ @param\ pfTab\ OUT\ \:\ tableau\ \u00E0\ remplir\r\n\r\n\ @return\ le\ nombre\ de\ cases\ remplies\ dans\ le\ tableau\r\n
+comment3.params=pfTab\ pfNbEl
+comment3.target=void\ afficherTableau(int[],\ int)
+comment3.text=\r\n\ Affiche\ le\ tableau\ en\ param\u00E8tre.\r\n\r\n\ @param\ pfTab\ IN\ \:\ tableau\r\n\ @param\ pfNbEl\ IN\ \:\ nombre\ de\ cases\ remplies\ dans\ le\ tableau\r\n\r\n
+comment4.params=args
+comment4.target=void\ main(int[])
+comment5.params=pfTab\ pfNbEl
+comment5.target=void\ inverserTableau(int[],\ int)
+comment6.params=pfTab\ pfNbEl
+comment6.target=void\ eliminerDoublons(int[],\ int)
+numComments=7

@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=TestFonctionPrincipale
-comment1.params=args
-comment1.target=void\ main(java.lang.String)
-comment1.text=\ Programme\ principal,\ le\ param\u00E8tre\ du\ main\ n'\u00E9tant\ pas\ utilis\u00E9\ ici\ nous\ ne\ commentons\ pas,\r\n\ \ \ \ \ il\ devra\ l'\u00EAtre\ en\ cas\ d'utilisation\ (cf.\ suite)\ \r\n
-comment2.params=pfn
-comment2.target=void\ afficherTirets(int)
-comment2.text=\r\n\ Affiche\ autant\ de\ pfn\ tirets\ \u00E0\ l'\u00E9cran\r\n\ @param\ \ pfn\ IN\ nombre\ de\ tirets\ \u00E0\ afficher\r\n
-numComments=3
