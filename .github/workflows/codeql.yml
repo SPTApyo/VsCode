@@ -13,9 +13,9 @@ name: "CodeQL Advanced"
 
 on:
   push:
-    branches: [ "main", "codeql" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "codeql" ]
+    branches: [ "main" ]
 
 jobs:
   analyze:
@@ -42,7 +42,7 @@ jobs:
       matrix:
         include:
         - language: c-cpp
-          build-mode: none
+          build-mode: manual
         - language: java-kotlin
           build-mode: none # This mode only analyzes Java. Set this to 'autobuild' or 'manual' to analyze Kotlin too.
         - language: javascript-typescript
@@ -100,3 +100,11 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+    - if: matrix.language == 'c-cpp'
+      name: Build C/C++ project
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+        cmake .
+        make
