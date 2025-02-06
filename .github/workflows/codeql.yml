@@ -102,14 +102,11 @@ jobs:
     - if: matrix.language == 'c-cpp'
       name: Build C/C++ project
       run: |
-        echo 'sudo apt-get update'
-        echo 'sudo apt-get install -y build-essential cmake'
-        echo 'cmake .'
-        echo 'make'
-        echo sudo apt-get update
-        echo sudo apt-get install -y build-essential cmake
-        echo cmake .
-        echo make
+        set -x
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+        cmake .
+        make
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
