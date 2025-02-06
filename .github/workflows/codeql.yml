@@ -86,6 +86,11 @@ jobs:
     # to build your code.
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc g++ make cmake
+
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
@@ -102,9 +107,17 @@ jobs:
         category: "/language:${{matrix.language}}"
 
     - if: matrix.language == 'c-cpp'
+      name: Show environment details
+      run: |
+        echo "Listing available compilers:"
+        gcc --version || echo "GCC not found"
+        g++ --version || echo "G++ not found"
+        clang --version || echo "Clang not found"
+    
+    - if: matrix.language == 'c-cpp'
       name: Build C/C++ project
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake
-        cmake .
-        make
+        echo "sudo apt-get update"
+        echo "sudo apt-get install -y build-essential cmake"
+        echo "cmake ."
+        echo "make"
