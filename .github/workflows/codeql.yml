@@ -3,7 +3,7 @@
 #
 # You may wish to alter this file to override the set of languages analyzed,
 # or to provide custom queries or build logic.
-#d
+#
 # ******** NOTE ********
 # We have attempted to detect the languages in your repository. Please check
 # the `language` matrix defined below to confirm you have the correct set of
@@ -13,11 +13,9 @@ name: "CodeQL Advanced"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "codeql" ]
   pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: '21 2 * * 3'
+    branches: [ "main", "codeql" ]
 
 jobs:
   analyze:
@@ -43,6 +41,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        - language: c-cpp
+          build-mode: none
         - language: java-kotlin
           build-mode: none # This mode only analyzes Java. Set this to 'autobuild' or 'manual' to analyze Kotlin too.
         - language: javascript-typescript
