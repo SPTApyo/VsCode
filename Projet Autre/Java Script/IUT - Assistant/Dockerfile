@@ -19,7 +19,9 @@ RUN npm prune --production
 
 # Create necessary directories and set ownership to node user
 RUN mkdir -p /home/node/IUT_Assistant/log /home/node/IUT_Assistant/data && \
-    adduser -D -H -u 1000 node && \
+    if ! id node >/dev/null 2>&1; then \
+        adduser -D -H -u 1000 node; \
+    fi && \
     chown -R node:node /home/node/IUT_Assistant && \
     chmod -R 700 /home/node/IUT_Assistant/log /home/node/IUT_Assistant/data
 

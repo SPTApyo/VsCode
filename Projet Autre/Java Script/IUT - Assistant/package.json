@@ -1,6 +1,6 @@
 {
   "name": "iut_assitant",
-  "Appversion": "1.5.0 - **RH0**",
+  "Appversion": "1.5.0 - **RH1**",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

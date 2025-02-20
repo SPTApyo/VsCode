@@ -7,7 +7,7 @@ class Logger {
     this.logFileName = `${config.directories.logDirectory}/log_${moment().format("YYYY-MM-DD_HH-mm-ss")}.txt`;
   }
 
-  logMessage(message) {
+  async logMessage(message) {
     try {
       // Ouvrir le fichier log en mode append
       const logStream = fs.createWriteStream(this.logFileName, { flags: "a" });

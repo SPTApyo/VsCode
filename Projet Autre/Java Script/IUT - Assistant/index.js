@@ -16,7 +16,6 @@ const Logger = require("./Logger");
 
 const logger = new Logger();
 
-
 const createEmbed = (title, description, color) => {
   const embed = new EmbedBuilder()
     .setColor(parseInt(color, 16))
@@ -30,6 +29,60 @@ const createEmbed = (title, description, color) => {
 
   return embed;
 };
+
+async function replyToInteraction(interaction, content = null, embed = null, components = null) {
+  try {
+    if (interaction){    
+    const responseOptions = { flags: 64 };
+    if (content) responseOptions.content = content;
+    if (embed) responseOptions.embeds = [embed];
+    if (components) responseOptions.components = components;
+
+    if (!interaction.replied) {
+      await interaction.reply(responseOptions);
+    } else {
+      await interaction.followUp(responseOptions);
+    }
+  } else {
+    logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Aucune interaction disponible (replyToInteraction).`);
+  }
+  } catch (error) {
+    logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'envoi de la réponse : ${error}`);
+    const errorResponseOptions = { content: "Une erreur est survenue lors de l'envoi de la réponse.", flags: 64 };
+    if (!interaction.replied) {
+      await interaction.reply(errorResponseOptions);
+    } else {
+      await interaction.followUp(errorResponseOptions);
+    }
+  }
+}
+
+async function updateInteraction(interaction, content = null, embed = null, components = null) {
+  try {
+    if (interaction){  
+    const responseOptions = { flags: 64 };
+    if (content) responseOptions.content = content;
+    if (embed) responseOptions.embeds = [embed];
+    if (components) responseOptions.components = components;
+
+    if (!interaction.deferred && !interaction.replied) {
+      await interaction.update(responseOptions);
+    } else {
+      await interaction.followUp(responseOptions);
+    }
+  } else {
+    logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Aucune interaction disponible (updateInteraction).`);
+  }
+  } catch (error) {
+    logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de la mise à jour de l'interaction : ${error}`);
+    const errorResponseOptions = { content: "Une erreur est survenue lors de la mise à jour de l'interaction.", flags: 64 };
+    if (!interaction.deferred && !interaction.replied) {
+      return await interaction.update(errorResponseOptions);
+    } else {
+      return await interaction.followUp(errorResponseOptions);
+    }
+  }
+}
 
 function hasRole(interaction, roleNames, name) {
   try {
@@ -94,9 +147,7 @@ client.on("interactionCreate", async (interaction) => {
       // Vérifier si la date est valide
       if (!moment(date, "DD-MM-YYYY", true).isValid()) {
         logger.logMessage("   [\x1b[91m ERROR \x1b[0m] Erreur lors de la création de devoir : Date invalide");
-        return await interaction.reply(
-          "Date invalide. Utilisez le format JJ-MM-AAAA."
-        );
+        return await replyToInteraction(interaction, "Date invalide. Utilisez le format JJ-MM-AAAA.", null);
       }
   
       // Ajouter le devoir
@@ -110,7 +161,7 @@ client.on("interactionCreate", async (interaction) => {
 
       if (!addedDevoir) {
         logger.logMessage("   [\x1b[91m ERROR \x1b[0m] Le devoir existe déjà.");
-        return await interaction.reply("Le devoir existe déjà.");
+        return await replyToInteraction(interaction, "Le devoir existe déjà.", null);
       }
 
       try {
@@ -119,7 +170,7 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'enregistrement des données : ${error}`
         );
-        return await interaction.reply("Erreur lors de l'enregistrement des données.");
+        return await replyToInteraction(interaction, "Erreur lors de l'enregistrement des données.", null);
       }
   
       // Créer l'embed pour la réponse
@@ -131,16 +182,11 @@ client.on("interactionCreate", async (interaction) => {
       logger.logMessage(
         `[\x1b[92m SUCCESS \x1b[0m] Devoir ajouté (${groupe}) | Devoir : ${devoir}, Matière : ${matiere}, Date limite : ${date}, Ajouté par : ${user.username}`
       );
-      await interaction.reply({
-        embeds: [embed],
-      });
-  
+      await replyToInteraction(interaction, null, embed); 
     } catch (error) {
       // Gérer les erreurs globales
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Une erreur est survenue lors de l'exécution de la commande "ADD" : ${error}`);
-      await interaction.reply(
-        "Une erreur est survenue lors de l'ajout du devoir. Veuillez réessayer plus tard."
-      );
+      return await replyToInteraction(interaction, "Une erreur est survenue lors de l'ajout du devoir. Veuillez réessayer plus tard.", null);
     }
   } else if (commandName === "modify") {
     try {
@@ -168,7 +214,7 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] ${error}`
         );
-        return await interaction.reply(`Aucun devoir trouvé avec l'ID ${id}.`);
+        return await replyToInteraction(interaction, `Aucun devoir trouvé avec l'ID ${id}.`, null);
       }
     
       try {
@@ -183,7 +229,7 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] ${error}`
         );
-        return await interaction.reply("Date invalide. Utilisez le format JJ-MM-AAAA.");
+        return await replyToInteraction(interaction, "Date invalide. Utilisez le format JJ-MM-AAAA.", null);
       }
     
       try {
@@ -193,7 +239,7 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'enregistrement des données : ${error}`
         );
-        return await interaction.reply("Erreur lors de l'enregistrement des données.");
+        return await replyToInteraction(interaction, "Erreur lors de l'enregistrement des données.", null);
       }
     
       try {
@@ -201,20 +247,18 @@ client.on("interactionCreate", async (interaction) => {
           `Devoir modifié (${groupe})`,
           `**ID :** ${id}\n**Devoir :** ${devoirToModify.devoir}\n**Matière :** ${devoirToModify.matiere}\n**Date limite :** ${devoirToModify.date}`, config.appearance.embedGlobalColor
         );
-        await interaction.reply({
-          embeds: [embed],
-        });
+        await replyToInteraction(interaction, null, embed);
       } catch (error) {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de la création de l'embed : ${error}`
         );
-        return await interaction.reply("Erreur lors de la réponse.");
+        return await replyToInteraction(interaction, "Erreur lors de la réponse.", null);
       }
     } catch (error) {
       logger.logMessage(
         `   [\x1b[91m ERROR \x1b[0m] Erreur inattendue : ${error}`
       );
-      return await interaction.reply("Une erreur inattendue est survenue.");
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue.", null);
     }
     
   } else if (commandName === "list") {
@@ -239,7 +283,7 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de la génération de la liste des devoirs : ${error}`
         );
-        return await interaction.reply("Une erreur est survenue lors de la génération de la liste des devoirs.");
+        return await replyToInteraction(interaction, "Une erreur est survenue lors de la génération de la liste des devoirs.", null);
       }
     
       let embedList;
@@ -250,24 +294,22 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de la création de l'embed : ${error}`
         );
-        return await interaction.reply("Erreur lors de la création de l'embed.");
+        return await replyToInteraction(interaction, "Erreur lors de la création de l'embed.", null);
       }
     
       try {
-        await interaction.reply({
-          embeds: [embedList],
-        });
+        await replyToInteraction(interaction, null, embedList);
       } catch (error) {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'envoi de la réponse : ${error}`
         );
-        return await interaction.reply("Erreur lors de l'envoi de la réponse.");
+        return await replyToInteraction(interaction, "Erreur lors de l'envoi de la réponse.", null);
       }
     } catch (error) {
       logger.logMessage(
         `   [\x1b[91m ERROR \x1b[0m] Erreur inattendue : ${error}`
       );
-      return await interaction.reply("Une erreur inattendue est survenue.");
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue.", null);
     }    
   } else if (commandName === "check") {
     try {
@@ -275,7 +317,7 @@ client.on("interactionCreate", async (interaction) => {
         `[\x1b[94m EVENT \x1b[0m] Interaction : commande "CHECK" par ${user.username}`
       );
     
-      await interaction.reply("Vérification des devoirs à venir en cours...");
+      await replyToInteraction(interaction, "Vérification des devoirs à venir en cours...", null);
     
       try {
         await checkAllGroups(interaction);
@@ -283,24 +325,21 @@ client.on("interactionCreate", async (interaction) => {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors de la vérification des devoirs à venir : ${error}`
         );
-        return await interaction.reply("Une erreur est survenue lors de la vérification des devoirs à venir.");
+        return await replyToInteraction(interaction, "Une erreur est survenue lors de la vérification des devoirs à venir.", null);
       }
     
     } catch (error) {
       logger.logMessage(
         `   [\x1b[91m ERROR \x1b[0m] Erreur inattendue : ${error}`
       );
-      return await interaction.reply("Une erreur inattendue est survenue.");
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue.", null);
     }    
   } else if (commandName === "sort") {
     try {
       if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
         // Vérifie si l'utilisateur a le rôle Admin
         logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
-        return await interaction.reply({
-          content: "Vous n'avez pas la permission d'utiliser cette commande.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
       }
     
       logger.logMessage(
@@ -309,28 +348,25 @@ client.on("interactionCreate", async (interaction) => {
     
       try {
         DevoirManager.applyToAll('sortDevoirs');
-        await interaction.reply("Tri terminé avec succès !");
+        await replyToInteraction(interaction, "Tri terminé avec succès !", null);
       } catch (error) {
         logger.logMessage(
           `   [\x1b[91m ERROR \x1b[0m] Erreur lors du tri des devoirs : ${error}`
         );
-        return await interaction.reply("Une erreur est survenue lors du tri des devoirs.");
+        return await replyToInteraction(interaction, "Une erreur est survenue lors du tri des devoirs.", null);
       }
     } catch (error) {
       logger.logMessage(
         `   [\x1b[91m ERROR \x1b[0m] Erreur inattendue : ${error}`
       );
-      return await interaction.reply("Une erreur inattendue est survenue.");
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue.", null);
     }    
   } else if (commandName === "regenerate") {
     try {
       if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
         // Vérifie si l'utilisateur a le rôle Admin
-        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "REGENERATEIDS"`);
-        return await interaction.reply({
-          content: "Vous n'avez pas la permission d'utiliser cette commande.",
-          flags: 64,
-        });
+        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+        return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
       }
     
       const groupe = interaction.options.getString("groupe").trim().toUpperCase();
@@ -339,31 +375,22 @@ client.on("interactionCreate", async (interaction) => {
 
       try {
         devoirManager.regenerateIds();
-        await interaction.reply("Les identifiants de devoirs ont été régénérés avec succès !");
+        await replyToInteraction(interaction, "Les identifiants de devoirs ont été régénérés avec succès !", null);
         logger.logMessage("[\x1b[92m SUCCESS \x1b[0m] Les identifiants de devoirs ont été régénérés avec succès !");
       } catch (error) {
         logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Une erreur s'est produite lors de la régénération des identifiants : ${error}`);
-        await interaction.reply({
-          content: "Une erreur est survenue lors de la régénération des identifiants. Veuillez réessayer plus tard.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Une erreur est survenue lors de la régénération des identifiants. Veuillez réessayer plus tard.", null);
       }
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Une erreur inattendue s'est produite dans la commande "REGENERATEIDS" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur inattendue est survenue. Veuillez contacter un administrateur.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue. Veuillez contacter un administrateur.", null);
     }    
   } else if (commandName === "purge") {
     try {
       if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
         // Vérifie si l'utilisateur a le rôle Admin
-        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "PURGE"`);
-        return await interaction.reply({
-          content: "Vous n'avez pas la permission d'utiliser cette commande.",
-          flags: 64,
-        });
+        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+        return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
       }
         
       const groupe = interaction.options.getString("groupe").trim().toUpperCase();
@@ -380,12 +407,7 @@ client.on("interactionCreate", async (interaction) => {
           .setLabel("Annuler")
           .setStyle(ButtonStyle.Secondary)
       );
-    
-      await interaction.reply({
-        content: `Es-tu sûr de vouloir purger tous les devoirs du groupe ${groupe} ?`,
-        components: [row],
-        flags: 64,
-      });
+      await replyToInteraction(interaction, `Êtes-vous sûrs de vouloir purger tous les devoirs du groupe ${groupe} ?`, null, [row]);
     
       const filter = (i) => i.user.id === user.id;
       const collector = interaction.channel.createMessageComponentCollector({
@@ -399,28 +421,17 @@ client.on("interactionCreate", async (interaction) => {
             logger.logMessage(`[\x1b[94m EVENT \x1b[0m] Interaction : commande "PURGE" confirmée par ${user.username} pour le groupe ${groupe}`);
             devoirManager.devoirs = [];
             devoirManager.saveDevoirs();
-            await i.update({
-              content: "Tous les devoirs du groupe ont été supprimés.",
-              components: [],
-              flags: 64,
-            });
+            updateInteraction(i, "Tous les devoirs du groupe ont été supprimés.", null, []);
             logger.logMessage("[\x1b[92m SUCCESS \x1b[0m] Purge effectuée avec succès !");
           } else {
-            await i.update({
-              content: "Purge annulée.",
-              components: [],
-              flags: 64,
-            });
+            updateInteraction(i, "Purge annulée.", null, []);
             logger.logMessage(`[\x1b[94m EVENT \x1b[0m] Commande "PURGE" annulée par ${user.username}`);
           }
         } catch (error) {
           logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de la gestion de la commande "PURGE" : ${error}`);
-          await i.update({
-            content: "Une erreur est survenue lors du traitement de la commande.",
-            components: [],
-            flags: 64,
-          });
+          updateInteraction(i, "Une erreur est survenue lors du traitement de la commande.", null, []);
         }
+        collector.stop();
       });
     
       collector.on("end", (collected) => {
@@ -436,13 +447,11 @@ client.on("interactionCreate", async (interaction) => {
         } catch (error) {
           logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de la gestion de la fin de la collecte de la commande "PURGE" : ${error}`);
         }
+        collector.stop();
       });
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur inattendue dans la commande "PURGE" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur inattendue est survenue lors du traitement de la commande.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue lors du traitement de la commande.", null);
     }    
   } else if (commandName === "about") {
     try {
@@ -454,26 +463,18 @@ client.on("interactionCreate", async (interaction) => {
       if (!app.name || !app.author || !app.Appversion || !app.license) {
         throw new Error("Certaines informations sont manquantes pour afficher les détails de l'application.");
       }
-    
-      await interaction.reply(
-        `Name : ${app.name}\nAuthor : ${app.author}\nVersion : ${app.Appversion}\nLicense : ${app.license}`
-      );
+      await replyToInteraction(interaction, `Name : ${app.name}\nAuthor : ${app.author}\nVersion : ${app.Appversion}\nLicense : ${app.license}`, null);
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de la commande "ABOUT" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur est survenue lors de l'exécution de la commande 'ABOUT'.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur est survenue lors de l'exécution de la commande 'ABOUT'.", null);
     }    
   } else if (commandName === "kill") {
     try {
       // Vérifie si l'utilisateur a le rôle Admin
       if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
-        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "KILL"`);
-        return await interaction.reply({
-          content: "Vous n'avez pas la permission d'utiliser cette commande.",
-          flags: 64,
-        });
+        // Vérifie si l'utilisateur a le rôle Admin
+        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+        return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
       }
     
       logger.logMessage(`[\x1b[94m EVENT \x1b[0m] Interaction : commande "KILL" par ${user.username}`);
@@ -491,11 +492,7 @@ client.on("interactionCreate", async (interaction) => {
       );
     
       // Demande à l'utilisateur de confirmer ou annuler l'arrêt du bot
-      await interaction.reply({
-        content: "Êtes-vous sûr de vouloir arrêter le bot ?",
-        components: [row],
-        flags: 64,
-      });
+      await replyToInteraction(interaction, "Êtes-vous sûrs de vouloir arrêter le bot ?", null, [row]);
     
       // Crée un collector pour écouter les boutons
       const filter = (i) => i.user.id === user.id; // Filtrer par l'utilisateur qui a exécuté la commande
@@ -509,27 +506,20 @@ client.on("interactionCreate", async (interaction) => {
           if (i.customId === "confirm_kill") {
             // L'utilisateur a confirmé, on arrête le bot
             logger.logMessage(`[\x1b[94m EVENT \x1b[0m] Interaction : commande "KILL" confirmée par ${user.username}`);
-            await i.update({
-              content: "Arrêt du bot en cours...",
-              components: [],
-              flags: 64,
-            });
+            updateInteraction(i, "Arrêt du bot en cours...", null, []);
             setTimeout(function() {
               client.destroy();
               process.exit(1); // Arrêt du bot
             }, 5000);
           } else if (i.customId === "cancel_kill") {
             // L'utilisateur a annulé
-            await i.update({
-              content: "Arrêt du bot annulé.",
-              components: [],
-              flags: 64,
-            });
+            updateInteraction(i, "Arrêt du bot annulé.", null, []);
             logger.logMessage(`[\x1b[94m EVENT \x1b[0m] Interaction : commande "KILL" annulée par ${user.username}`);
           }
         } catch (error) {
           logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de la collecte de l'interaction : ${error}`);
         }
+        collector.stop();
       });
     
       collector.on("end", (collected) => {
@@ -545,25 +535,20 @@ client.on("interactionCreate", async (interaction) => {
         } catch (error) {
           logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'expiration du collector : ${error}`);
         }
+        collector.stop();
       });
     
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur dans la commande "KILL" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur s'est produite lors de l'exécution de la commande.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur s'est produite lors de l'exécution de la commande.", null);
     }
     
   } else if (commandName === "delete") {
     try {
       if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
         // Vérifie si l'utilisateur a le rôle Admin
-        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "DELETE"`);
-        return await interaction.reply({
-          content: "Vous n'avez pas la permission d'utiliser cette commande.",
-          flags: 64,
-        });
+        logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+        return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
       }
 
       const id = interaction.options.getInteger("id");
@@ -575,26 +560,21 @@ client.on("interactionCreate", async (interaction) => {
 
       if (deleted) {
         devoirManager.saveDevoirs();
-        await interaction.reply(`Le devoir avec l'ID ${id} a été supprimé avec succès.`);
+        await replyToInteraction(interaction, `Le devoir avec l'ID ${id} a été supprimé avec succès.`, null);
         logger.logMessage(`[\x1b[92m SUCCESS \x1b[0m] Devoir avec l'ID ${id} supprimé avec succès pour le groupe ${groupe}`);
       } else {
-        await interaction.reply(`Aucun devoir trouvé avec l'ID ${id}.`);
         logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Aucun devoir trouvé avec l'ID ${id} pour le groupe ${groupe}`);
+        return await replyToInteraction(interaction, `Aucun devoir trouvé avec l'ID ${id}.`, null);
       }
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur inattendue dans la commande "DELETE" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur inattendue est survenue lors du traitement de la commande.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur inattendue est survenue lors du traitement de la commande.", null);
     }
   } else if (commandName === "sendembed") {
     if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
-      logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SEND"`);
-      return await interaction.reply({
-        content: "Vous n'avez pas la permission d'utiliser cette commande.",
-        flags: 64,
-      });
+      // Vérifie si l'utilisateur a le rôle Admin
+      logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+      return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
     }
 
     try {
@@ -605,27 +585,18 @@ client.on("interactionCreate", async (interaction) => {
       const message = interaction.options.getString("message");
 
       if (!channelId && !channelOption) {
-        return await interaction.reply({
-          content: "Vous devez fournir soit l'ID du salon, soit sélectionner un salon.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Vous devez fournir soit l'ID du salon, soit sélectionner un salon.", null);
       }
 
       const channel = channelOption || await client.channels.fetch(channelId);
       if (!channel) {
-        return await interaction.reply({
-          content: "Salon introuvable.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Salon introuvable.", null);
       }
 
       // Check if the bot has the necessary permissions
       const botPermissions = channel.permissionsFor(client.user);
       if (!botPermissions.has(PermissionsBitField.Flags.SendMessages) || !botPermissions.has(PermissionsBitField.Flags.EmbedLinks)) {
-        return await interaction.reply({
-          content: "Je n'ai pas les permissions nécessaires pour envoyer des messages ou des embeds dans ce salon.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Je n'ai pas les permissions nécessaires pour envoyer des messages ou des embeds dans ce salon.", null);
       }
 
       const embed = createEmbed(
@@ -639,25 +610,16 @@ client.on("interactionCreate", async (interaction) => {
       } else {
         await channel.send({ embeds: [embed] });
       }
-
-      await interaction.reply({
-        content: "Message et embed envoyés avec succès.",
-        flags: 64,
-      });
+      await replyToInteraction(interaction, "Message et embed envoyés avec succès.", null);
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'exécution de la commande "sendembed" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur est survenue lors de l'envoi de l'embed.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur est survenue lors de l'envoi de l'embed.", null);
     }
   } else if (commandName === "send") {
     if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
-      logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SEND"`);
-      return await interaction.reply({
-        content: "Vous n'avez pas la permission d'utiliser cette commande.",
-        flags: 64,
-      });
+      // Vérifie si l'utilisateur a le rôle Admin
+      logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+      return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
     }
 
     try {
@@ -666,48 +628,31 @@ client.on("interactionCreate", async (interaction) => {
       const message = interaction.options.getString("message");
 
       if (!channelId && !channelOption) {
-        return await interaction.reply({
-          content: "Vous devez fournir soit l'ID du salon, soit sélectionner un salon.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Vous devez fournir soit l'ID du salon, soit sélectionner un salon.", null);
       }
 
       const channel = channelOption || await client.channels.fetch(channelId);
       if (!channel) {
-        return await interaction.reply({
-          content: "Salon introuvable.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Salon introuvable.", null);
       }
 
       // Check if the bot has the necessary permissions
       const botPermissions = channel.permissionsFor(client.user);
       if (!botPermissions.has(PermissionsBitField.Flags.SendMessages)) {
-        return await interaction.reply({
-          content: "Je n'ai pas les permissions nécessaires pour envoyer des messages dans ce salon.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Je n'ai pas les permissions nécessaires pour envoyer des messages dans ce salon.", null);
       }
 
       await channel.send(message);
-      await interaction.reply({
-        content: "Message envoyé avec succès.",
-        flags: 64,
-      });
+      await replyToInteraction(interaction, "Message envoyé avec succès.", null);
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'exécution de la commande "send" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur est survenue lors de l'envoi du message.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur est survenue lors de l'envoi du message.", null);
     }
   } else if (commandName === "modifyembed") {
     if (!hasRole(interaction, config.permissions.adminRoles, user.username)) {
-      logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "MODIFYEMBED"`);
-      return await interaction.reply({
-        content: "Vous n'avez pas la permission d'utiliser cette commande.",
-        flags: 64,
-      });
+      // Vérifie si l'utilisateur a le rôle Admin
+      logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Permission refusée pour ${user.username}, Interaction : commande "SORT"`);
+      return await replyToInteraction(interaction, "Vous n'avez pas la permission d'utiliser cette commande.", null);
     }
 
     try {
@@ -719,25 +664,16 @@ client.on("interactionCreate", async (interaction) => {
 
       const channel = await client.channels.fetch(channelId);
       if (!channel) {
-        return await interaction.reply({
-          content: "Salon introuvable.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Salon introuvable.", null);
       }
 
       const message = await channel.messages.fetch(messageId);
       if (!message) {
-        return await interaction.reply({
-          content: "Message introuvable.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Message introuvable.", null);
       }
 
       if (!message.embeds.length) {
-        return await interaction.reply({
-          content: "Aucun embed trouvé dans ce message.",
-          flags: 64,
-        });
+        return await replyToInteraction(interaction, "Aucun embed trouvé dans ce message.", null);
       }
 
       const embed = message.embeds[0];
@@ -751,16 +687,10 @@ client.on("interactionCreate", async (interaction) => {
         embeds: [updatedEmbed],
       });
 
-      await interaction.reply({
-        content: "Embed modifié avec succès.",
-        flags: 64,
-      });
+      await replyToInteraction(interaction, "Embed modifié avec succès.", null);
     } catch (error) {
       logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de l'exécution de la commande "modifyembed" : ${error}`);
-      await interaction.reply({
-        content: "Une erreur est survenue lors de la modification de l'embed.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur est survenue lors de la modification de l'embed.", null);
     }
   }
 });
@@ -938,7 +868,7 @@ async function checkUpcoming(task, interaction = null) {
             // Supprimer les messages en bloc
             await channel.bulkDelete(fetched);
             logger.logMessage(
-              `\x1b[92m[\x1b[92m SUCCESS \x1b[0m] ${fetched.size} messages ont été supprimés dans le salon (${channel.name}) avec succès !\x1b[0m`
+              `[\x1b[92m SUCCESS \x1b[0m] ${fetched.size} messages ont été supprimés dans le salon (${channel.name}) avec succès !\x1b[0m`
             );
           } catch (error) {
             logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Erreur lors de la suppression des messages : ${error}`);
@@ -960,20 +890,11 @@ async function checkUpcoming(task, interaction = null) {
     }
 
     // Si interaction est disponible, envoyer la réponse appropriée
+
     if (interaction) {
-      if (!interaction.replied) {
-        await interaction.reply(
-          devoirs.length
-            ? "Rappels de devoir envoyés avec succès !"
-            : "Aucun devoir à rappeler."
-        );
-      } else {
-        await interaction.followUp(
-          devoirs.length
-            ? "Rappels de devoir envoyés avec succès !"
-            : "Aucun devoir à rappeler."
-        );
-      }
+      await replyToInteraction(interaction, devoirs.length
+        ? "Rappels de devoir envoyés avec succès !"
+        : "Aucun devoir à rappeler.", null);
     } else {
       // Si interaction n'est pas disponible, ne rien envoyer mais loguer le résultat
       logger.logMessage(
@@ -985,10 +906,7 @@ async function checkUpcoming(task, interaction = null) {
   } catch (error) {
     logger.logMessage(`   [\x1b[91m ERROR \x1b[0m] Une erreur s'est produite lors de la vérification des devoirs à venir : ${error}`);
     if (interaction) {
-      await interaction.reply({
-        content: "Une erreur s'est produite lors de la vérification des devoirs à venir.",
-        flags: 64,
-      });
+      return await replyToInteraction(interaction, "Une erreur s'est produite lors de la vérification des devoirs à venir.", null);
     }
   }
 }
