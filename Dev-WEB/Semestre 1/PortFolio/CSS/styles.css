@@ -141,7 +141,7 @@ main {
 
 
 section {
-	transition: transform 0.2s ease-in-out, opacity 1s ease, visibility 1s ease;
+	transition: transform 0.5s ease-in-out, opacity 1s ease, visibility 1s ease;
 	position: relative;
 	padding-top: 50px;
 	padding: 2em;
@@ -244,7 +244,6 @@ footer {
 .footer-text-contact {
 	display: flex;
 	flex-direction: column;
-
 	align-items: center;
 }
 

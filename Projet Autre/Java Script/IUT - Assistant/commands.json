@@ -3,6 +3,12 @@
     "options": [
       {
         "type": 3,
+        "name": "groupe",
+        "description": "Dans quel groupe de l'IUT est le devoir",
+        "required": true
+      },
+      {
+        "type": 3,
         "name": "devoir",
         "description": "Le devoir à faire",
         "required": true
@@ -34,6 +40,12 @@
       },
       {
         "type": 3,
+        "name": "groupe",
+        "description": "Dans quel groupe de l'IUT est le devoir",
+        "required": true
+      },
+      {
+        "type": 3,
         "name": "devoir",
         "description": "Le nouveau devoir (laisser vide pour ne pas modifier)",
         "required": false
@@ -56,7 +68,33 @@
     "type": 1
   },
   {
-    "options": [],
+    "options": [
+      {
+        "type": 4,
+        "name": "id",
+        "description": "L'ID du devoir à supprimer",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "groupe",
+        "description": "Dans quel groupe de l'IUT est le devoir",
+        "required": true
+      }
+    ],
+    "name": "delete",
+    "description": "Supprime un devoir par ID",
+    "type": 1
+  },
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "groupe",
+        "description": "Dans quel groupe de l'IUT est le devoir",
+        "required": true
+      }
+    ],
     "name": "list",
     "description": "Affiche la liste des devoirs ajoutés",
     "type": 1
@@ -74,15 +112,128 @@
     "type": 1
   },
   {
-    "options": [],
+    "options": [
+      {
+        "type": 3,
+        "name": "groupe",
+        "description": "Dans quel groupe de l'IUT est le devoir",
+        "required": true
+      }
+    ],
     "name": "regenerate",
     "description": "Régénère les IDs de chaque devoir",
     "type": 1
   },
   {
-    "options": [],
+    "options": [
+      {
+        "type": 3,
+        "name": "groupe",
+        "description": "Dans quel groupe de l'IUT est le devoir",
+        "required": true
+      }
+    ],
     "name": "purge",
     "description": "Purge tous les devoirs enregistrés dans le fichier JSON",
+    "type": 1
+  },
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "message",
+        "description": "Le message à envoyer",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "channel_id",
+        "description": "L'ID du salon où envoyer le message",
+        "required": false
+      },
+      {
+        "type": 7,
+        "name": "channel",
+        "description": "Sélectionner le salon où envoyer le message",
+        "required": false
+      }
+    ],
+    "name": "send",
+    "description": "Envoie un message dans un salon spécifique",
+    "type": 1
+  },
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "title",
+        "description": "Le titre de l'embed",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "description",
+        "description": "La description de l'embed",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "message",
+        "description": "Le message à envoyer avant l'embed",
+        "required": false
+      },
+      {
+        "type": 3,
+        "name": "channel_id",
+        "description": "L'ID du salon où envoyer l'embed",
+        "required": false
+      },
+      {
+        "type": 7,
+        "name": "channel",
+        "description": "Sélectionner le salon où envoyer l'embed",
+        "required": false
+      }      
+    ],
+    "name": "sendembed",
+    "description": "Envoie un embed dans un salon spécifique",
+    "type": 1
+  },
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "message_id",
+        "description": "L'ID du message contenant l'embed à modifier",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "channel_id",
+        "description": "L'ID du salon où se trouve l'embed",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "title",
+        "description": "Le nouveau titre de l'embed",
+        "required": false
+      },
+      {
+        "type": 3,
+        "name": "description",
+        "description": "La nouvelle description de l'embed",
+        "required": false
+      },
+      {
+        "type": 3,
+        "name": "message",
+        "description": "Le nouveau message à envoyer avant l'embed",
+        "required": false
+      }
+    ],
+    "name": "modifyembed",
+    "description": "Modifie un embed existant dans un salon spécifique",
     "type": 1
   },
   {

@@ -1,13 +1,17 @@
 {
     "urls": {
-      "icsUrl": "https://webetud.iut-blagnac.fr/calendar/export_execute.php?userid=2332&authtoken=af5c6bad93b3bb6aed30e43de85b4362cbd8f1d3&preset_what=all&preset_time=custom"
+      "tasks": [
+        { "id": 1, "icsUrl": "https://webetud.iut-blagnac.fr/calendar/export_execute.php?userid=2332&authtoken=af5c6bad93b3bb6aed30e43de85b4362cbd8f1d3&preset_what=all&preset_time=custom", "Group": "1A", "devoirsChannelId": "1329524232673038447" },
+        { "id": 2, "icsUrl": "https://webetud.iut-blagnac.fr/calendar/export_execute.php?userid=2314&authtoken=fbaa6009e450d6755451e63cf1ed5735a78d3268&preset_what=all&preset_time=custom", "Group": "1B", "devoirsChannelId": "1287539800311726080" }
+      ]
     },
     "appearance": {
-      "embedGlobalColor": "0xd830ef",
+      "embedGlobalColor": "0x23eb6d",
       "embedDevoirsColor": "0xd830ef",
-      "embedQCMColor": "0xf39c12",
-      "embedSAEColor": "0x87ceeb",
-      "embedFooterText": "IUTAssistant | Made by _APYO"
+      "embedQCMColor": "0x87ceeb",
+      "embedSAEColor": "0xf02247",
+      "embedFooterText": "IUTAssistant  |  Made by _APYO",
+      "embedFooterIconUrl": "https://cdn3.emoji.gg/emojis/6316-icon-moderator.png"
     },
     "permissions": {
       "adminRoles": ["nabil"],
@@ -20,8 +24,9 @@
     "ids": {
       "clientId": "1287472834226032691",
       "guildId": "1283425157586882641",
-      "devoirsChannelId": "1287539800311726080",
       "testChannelId": "1287549656330539069"
     }
   }
-  
+
+
+

@@ -1,23 +1,40 @@
-FROM --platform=linux/arm64 node:lts-bookworm-slim
+# Use a smaller base image
+FROM --platform=linux/arm64 node:alpine
 
+# Set environment variables
 ENV NODE_ENV=production
 ENV TZ=Europe/Paris
 
-#USER node
+# Create app directory
+WORKDIR /home/node/IUT_Assistant
 
-COPY --chown=node:node . /home/Grace/DockerBot
-
-WORKDIR /home/Grace/DockerBot
-
+# Copy package.json and package-lock.json first to leverage Docker cache
 COPY package*.json ./
 
+# Install dependencies
 RUN npm ci --only=production
 
-COPY . .
+# Prune unused dependencies
+RUN npm prune --production
 
-# Définir des volumes pour log et data
-VOLUME /home/Grace/DockerBot/log
-VOLUME /home/Grace/DockerBot/data
+# Create necessary directories and set ownership to node user
+RUN mkdir -p /home/node/IUT_Assistant/log /home/node/IUT_Assistant/data && \
+    adduser -D -H -u 1000 node && \
+    chown -R node:node /home/node/IUT_Assistant && \
+    chmod -R 700 /home/node/IUT_Assistant/log /home/node/IUT_Assistant/data
 
+# Copy the rest of the application code
+COPY --chown=node:node . .
+
+# Switch to non-root user
+USER node
+
+# Define volumes for log and data
+VOLUME /home/node/IUT_Assistant/log
+VOLUME /home/node/IUT_Assistant/data
+
+# Expose the port the app runs on
 EXPOSE 8080
+
+# Start the application
 CMD ["node", "index.js"]

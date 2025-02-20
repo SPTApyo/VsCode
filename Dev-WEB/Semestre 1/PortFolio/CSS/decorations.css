@@ -192,6 +192,7 @@ section:hover .illustrations {
 	filter: blur(10px);
 	z-index: -1;
 	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(255, 255, 255, 0));
+	transition: transform 0.5s cubic-bezier(0.25, 1.75, 0.5, 1);
 }
 
 .illustration-acceuil {
@@ -365,10 +366,10 @@ section:hover .illustrations {
 	opacity: 0;
 	padding: 0 18px;
 	transition:
-		max-height 0.2s ease-in-out,
+		max-height 0.4s ease-in-out,
 		opacity 0.5s ease-in-out,
-		margin 0.2s ease-in-out,
-		padding 0.2s ease-in-out;
+		margin 0.4s ease-in-out,
+		padding 0.4s ease-in-out;
 	box-sizing: border-box;
 }
 
@@ -422,5 +423,5 @@ section:hover .illustrations {
 	border: 1px solid white;
 	color: white;
 	font-size: 1rem;
-	transition: transform 0.3s ease, box-shadow 0.3s ease, margin 0.3s ease;
+	transition: transform 1s ease, box-shadow 0.3s ease, margin 0.3s ease;
 }
