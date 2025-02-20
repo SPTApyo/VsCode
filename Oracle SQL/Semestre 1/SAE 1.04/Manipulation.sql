@@ -174,3 +174,58 @@ INSERT INTO Commander
 VALUES ( 3, 'D5333.001', 1, 38);
 INSERT INTO Commander
 VALUES ( 4, 'D5333.025', 1, 36);
+
+SELECT Count (idNumBC) as "NBCde"
+FROM BonCde; 
+
+SELECT 
+    SUM(c.qteA * a.prixU) AS Montant_Total_Commande,
+    COUNT(*) AS Nombre_Lignes_Commande
+FROM Commander c
+LEFT OUTER JOIN Article a ON c.idRefA = a.idRefA;
+
+SELECT 
+    c.idRefA AS Article,
+    SUM(c.qteA) AS Nombre_Ventes
+FROM Commander c
+GROUP BY c.idRefA
+ORDER BY Nombre_Ventes DESC;
+
+SELECT 
+    bc.idNumClient AS Num_Client,
+    COUNT(*) AS Nombre_Commandes
+FROM BonCde bc
+GROUP BY bc.idNumClient;
+
+SELECT 
+    cl.adLocalite AS Ville,
+    COUNT(bc.idNumBC) AS Nombre_Commandes,
+    SUM(c.qteA * a.prixU) AS Montant_Total
+FROM Client cl
+LEFT OUTER JOIN BonCde bc ON cl.idNumClient = bc.idNumClient
+LEFT OUTER JOIN Commander c ON bc.idNumBC = c.idNumBC
+LEFT OUTER JOIN Article a ON c.idRefA = a.idRefA
+GROUP BY cl.adLocalite;
+
+
+SELECT prixU
+FROM article
+WHERE idRefA = 'D6917.006';
+
+SELECT C2.idNumClient , C1.qteA
+FROM Commander C1, client C2, bonCde B
+WHERE C2.idNumClient = B.idNumClient
+AND B.idNumBC = C1.idNumBC
+AND C1.idRefA = 'D6917.006';
+
+SELECT 
+    cl.nom AS Nom_Client,
+    cl.prenom AS Prenom_Client,
+    COUNT(bc.idNumBC) AS Nombre_Commandes,
+    SUM(c.qteA * a.prixU) AS Montant_Total_Commande
+FROM Client cl
+LEFT OUTER JOIN BonCde bc ON cl.idNumClient = bc.idNumClient
+LEFT OUTER JOIN Commander c ON bc.idNumBC = c.idNumBC
+LEFT OUTER JOIN Article a ON c.idRefA = a.idRefA
+GROUP BY cl.idNumClient, cl.nom, cl.prenom
+HAVING COUNT(bc.idNumBC) > 1 AND SUM(c.qteA * a.prixU) > 200;
