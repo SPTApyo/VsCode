@@ -35,6 +35,13 @@ document.getElementById('backButton').addEventListener('click', function() {
 
 window.addEventListener('scroll', () => {
     const headerHeight = header.offsetHeight;
+    let scrollY = window.scrollY;
+    let overlay = document.querySelector(".elementor-background-overlay");
+
+    if (overlay) {
+        let moveY = (scrollY * 0.1) + "px";
+        overlay.style.transform = `translateY(${moveY})`;
+    }
 
     if (window.scrollY > 50) {
         backButton.style.display = 'flex';
