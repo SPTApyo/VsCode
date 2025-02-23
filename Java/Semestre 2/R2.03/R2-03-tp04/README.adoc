@@ -1,0 +1,55 @@
+= Instructions de Compilation, Documentation et Lancement du Projet
+
+//---------------------------------------------------------------
+
+Ce document fournit les instructions pour compiler, documenter et lancer votre projet Java en utilisant Maven.
+
+== Compilation
+
+Pour compiler votre projet, suivez les étapes ci-dessous :
+
+. Ouvrez un terminal et placez-vous dans le répertoire racine de votre projet.
+. Exécutez la commande suivante pour nettoyer les fichiers précédemment compilés :
++
+....
+mvn clean
+....
++
+. Exécutez la commande suivante pour compiler le projet :
++
+....
+mvn compile
+....
++
+. La compilation créera le répertoire `target` contenant les fichiers compilés.
+
+== Documentation
+
+Pour générer la documentation Javadoc de votre projet, suivez les étapes ci-dessous :
+
+. Exécutez la commande suivante pour générer la documentation Javadoc :
++
+....
+mvn javadoc:javadoc
+....
++
+. La documentation sera générée dans le répertoire `target/site/apidocs`.
+
+== Lancement
+
+Pour lancer votre projet, suivez les étapes ci-dessous :
+
+. Assurez-vous que votre classe principale contient une méthode `main`.
+. Exécutez la commande suivante pour créer un fichier JAR exécutable :
++
+....
+mvn package
+....
++
+. Le fichier JAR sera créé dans le répertoire `target`.
+. Pour exécuter le fichier JAR, utilisez la commande suivante :
++
+....
+java -jar target/tp_qualite-1.0.jar
+....
+
